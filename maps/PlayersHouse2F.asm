@@ -83,13 +83,36 @@ PlayersHouseBookshelfScript:
 	jumpstd PictureBookshelfScript
 
 PlayersHousePCScript:
+; -------- BEGIN AFS
+	checkevent EVENT_GOT_A_POKEMON_FROM_ELM
+    iftrue .GotInitialTeam
 	opentext
-	special PlayersHousePC
-	iftrue .Warp
+	writetext PlayersRadioText2
+	pause 45
 	closetext
+	givepoke CYNDAQUIL, 5, BERRY
+	givepoke CHIKORITA, 5, BERRY
+	givepoke TOTODILE, 5, BERRY
+	givepoke BULBASAUR, 5, BERRY
+	givepoke CHARMANDER, 5, BERRY
+	givepoke SQUIRTLE, 5, BERRY
+	setevent EVENT_GOT_A_POKEMON_FROM_ELM
+; -------- END AFS
+;	opentext
+;	special PlayersHousePC
+;	iftrue .Warp
+;	closetext
+;	end
+;.Warp:
+;	warp NONE, 0, 0
 	end
-.Warp:
-	warp NONE, 0, 0
+
+; AFS
+.GotInitialTeam:
+	opentext
+	writetext PlayersRadioText1
+	pause 45
+	closetext
 	end
 
 PlayersRadioText1:
