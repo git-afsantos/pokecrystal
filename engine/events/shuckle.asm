@@ -5,10 +5,31 @@ GiveShuckle:
 	xor a ; PARTYMON
 	ld [wMonType], a
 
-; Level 15 Shuckle.
-	ld a, SHUCKLE
+; Get team data
+	ld hl, GymLeaderTeams
+	ld a, [wScriptVar]
+	;dec a ; zero-based index
+	;ld bc, 6
+	;push af
+	;push bc
+	;call AddNTimes
+	;pop bc
+	;pop af
+	ld a, [hl]
+	ld [wCurSpecies], a ; species
+	inc hl
+	ld a, [hl]
+	ld [wCurItem], a ; item
+	inc hl
+	ld a, HIGH(hl)
+	ld [hMGChecksum], a ; address to moveset
+	ld a, LOW(hl)
+	ld [hMGChecksum + 1], a
+
+; Level 50 pokemon.
+	ld a, [wCurSpecies]
 	ld [wCurPartySpecies], a
-	ld a, 15
+	ld a, 50
 	ld [wCurPartyLevel], a
 
 	predef TryAddMonToParty
@@ -18,7 +39,7 @@ GiveShuckle:
 	ld b, CAUGHT_BY_UNKNOWN
 	farcall SetGiftPartyMonCaughtData
 
-; Holding a Berry.
+; Holding an item.
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, [wPartyCount]
 	dec a
@@ -26,36 +47,37 @@ GiveShuckle:
 	push bc
 	ld hl, wPartyMon1Item
 	call AddNTimes
-	ld [hl], BERRY
+	ld a, [wCurItem]
+	ld [hl], a
 	pop bc
 	pop af
 
 ; OT ID.
-	ld hl, wPartyMon1ID
-	call AddNTimes
-	ld a, HIGH(MANIA_OT_ID)
-	ld [hli], a
-	ld [hl], LOW(MANIA_OT_ID)
+	;ld hl, wPartyMon1ID
+	;call AddNTimes
+	;ld a, HIGH(MANIA_OT_ID)
+	;ld [hli], a
+	;ld [hl], LOW(MANIA_OT_ID)
 
 ; Nickname.
-	ld a, [wPartyCount]
-	dec a
-	ld hl, wPartyMonNicknames
-	call SkipNames
-	ld de, SpecialShuckleNick
-	call CopyName2
+	;ld a, [wPartyCount]
+	;dec a
+	;ld hl, wPartyMonNicknames
+	;call SkipNames
+	;ld de, SpecialShuckleNick
+	;call CopyName2
 
 ; OT.
-	ld a, [wPartyCount]
-	dec a
-	ld hl, wPartyMonOT
-	call SkipNames
-	ld de, SpecialShuckleOT
-	call CopyName2
+	;ld a, [wPartyCount]
+	;dec a
+	;ld hl, wPartyMonOT
+	;call SkipNames
+	;ld de, SpecialShuckleOT
+	;call CopyName2
 
 ; Engine flag for this event.
-	ld hl, wDailyFlags1
-	set DAILYFLAGS1_GOT_SHUCKIE_TODAY_F, [hl]
+	;ld hl, wDailyFlags1
+	;set DAILYFLAGS1_GOT_SHUCKIE_TODAY_F, [hl]
 	ld a, 1
 	ld [wScriptVar], a
 	ret

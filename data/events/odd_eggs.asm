@@ -392,3 +392,19 @@ OddEggs:
 	bigdw 9 ; SAtk
 	bigdw 9 ; SDef
 	db "EGG@@@@@@@@"
+
+
+; this is a table
+; see data/battle_tower/unknown.asm for examples
+; see data/events/bug_contest_winners.asm for a better example
+GymLeaderTeams:
+
+; Gym Leader 1 Team
+	db SCYTHER
+	db LEFTOVERS
+	db WING_ATTACK, QUICK_ATTACK, AGILITY, SWORDS_DANCE
+
+; Gym Leader 2 Team
+	db ARCANINE
+	db CHARCOAL
+	db FLAMETHROWER, EXTREMESPEED, CRUNCH, DOUBLE_EDGE

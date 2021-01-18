@@ -89,13 +89,10 @@ PlayersHousePCScript:
 	opentext
 	writetext PlayersRadioText2
 	pause 45
+	; callasm OverworldHatchEgg
+	setval 1 ; team 1
+	special GiveShuckle
 	closetext
-	givepoke CYNDAQUIL, 5, BERRY
-	givepoke CHIKORITA, 5, BERRY
-	givepoke TOTODILE, 5, BERRY
-	givepoke BULBASAUR, 5, BERRY
-	givepoke CHARMANDER, 5, BERRY
-	givepoke SQUIRTLE, 5, BERRY
 	setevent EVENT_GOT_A_POKEMON_FROM_ELM
 ; -------- END AFS
 ;	opentext
