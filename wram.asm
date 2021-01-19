@@ -3116,6 +3116,7 @@ wPartyMon3:: party_struct wPartyMon3
 wPartyMon4:: party_struct wPartyMon4
 wPartyMon5:: party_struct wPartyMon5
 wPartyMon6:: party_struct wPartyMon6
+wPartyMonsEnd::
 
 wPartyMonOT:: ds NAME_LENGTH * PARTY_LENGTH
 

@@ -90,7 +90,7 @@ PlayersHousePCScript:
 	writetext PlayersRadioText2
 	pause 45
 	; callasm OverworldHatchEgg
-	setval 1 ; team 1
+	setval FALKNER ; team 1
 	special GiveShuckle
 	closetext
 	setevent EVENT_GOT_A_POKEMON_FROM_ELM
