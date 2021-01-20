@@ -12,12 +12,13 @@ GiveShuckle:
 	xor a
 	call ByteFill ; fills bc bytes (all party structs) with a (0)
 
-	ld a, [wScriptVar] ; Trainer Class constant
+	;ld a, [wScriptVar] ; Trainer Class constant
+	ld a, FALKNER
 
 	dec a ; zero-based index
 	ld c, a
 	ld b, 0
-	ld hl, TrainerGroups ; go to table of addresses
+	ld hl, MyTrainerGroups ; go to table of addresses
 	add hl, bc
 	add hl, bc  ; add twice to skip words, not bytes
 	ld a, [hli] ; save the low byte of the address
@@ -45,15 +46,29 @@ GiveShuckle:
 	jp hl
 
 .done
+	jp DummyReward
+
+DummyReward:
 	ret
 
+MyTrainerGroups:
+; entries correspond to trainer classes (see constants/trainer_constants.asm)
+	dw MyFalknerGroup
+
+
+MyFalknerGroup:
+	; FALKNER (1)
+	db "FALKNER@", TRAINERTYPE_MOVES
+	db  7, PIDGEY,     TACKLE, MUD_SLAP, NO_MOVE, NO_MOVE
+	db  9, PIDGEOTTO,  TACKLE, MUD_SLAP, GUST, NO_MOVE
+	db -1 ; end
 
 MyTrainerTypes:
 ; entries correspond to TRAINERTYPE_* constants
-	;dw TrainerType1 ; level, species
+	dw MyTrainerType2 ; level, species
 	dw MyTrainerType2 ; level, species, moves
-	;dw TrainerType3 ; level, species, item
-	;dw TrainerType4 ; level, species, item, moves
+	dw MyTrainerType2 ; level, species, item
+	dw MyTrainerType2 ; level, species, item, moves
 
 MyTrainerType2:
 ; moves
@@ -69,7 +84,17 @@ MyTrainerType2:
 	ld [wCurPartySpecies], a
 	ld a, PARTYMON
 	ld [wMonType], a
+	;ld a, TRAINER_BATTLE
+	;ld [wBattleMode], a
 
+; TryAddMonToParty requires
+; [x] wPartyCount
+; [x] wMonType (PARTYMON)
+; [x] wCurPartySpecies
+; [?] wPartyMonOT
+; [?] wPlayerName
+; [ ] wBattleMode
+; [x] wCurPartyLevel
 	push hl
 	predef TryAddMonToParty
 	ld a, [wPartyCount]
