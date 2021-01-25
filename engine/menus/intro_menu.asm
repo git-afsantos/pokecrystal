@@ -67,10 +67,12 @@ NewGame:
 	call OakSpeech
 	call InitializeWorld
 
-	ld a, LANDMARK_NEW_BARK_TOWN
+	;ld a, LANDMARK_NEW_BARK_TOWN
+	ld a, LANDMARK_VIOLET_CITY
 	ld [wPrevLandmark], a
 
-	ld a, SPAWN_HOME
+	;ld a, SPAWN_HOME
+	ld a, SPAWN_VIOLET
 	ld [wDefaultSpawnpoint], a
 
 	ld a, MAPSETUP_WARP
@@ -310,6 +312,7 @@ InitializeWorld:
 	call ShrinkPlayer
 	farcall SpawnPlayer
 	farcall _InitializeStartDay
+	farcall GiveShuckle
 	ret
 
 LoadOrRegenerateLuckyIDNumber:
@@ -643,59 +646,59 @@ OakSpeech:
 	call PlayMusic
 
 	call RotateFourPalettesRight
-	call RotateThreePalettesRight
-	xor a
-	ld [wCurPartySpecies], a
-	ld a, POKEMON_PROF
-	ld [wTrainerClass], a
-	call Intro_PrepTrainerPic
+	;call RotateThreePalettesRight
+	;xor a
+	;ld [wCurPartySpecies], a
+	;ld a, POKEMON_PROF
+	;ld [wTrainerClass], a
+	;call Intro_PrepTrainerPic
 
-	ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS
-	call GetSGBLayout
-	call Intro_RotatePalettesLeftFrontpic
+	;ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS
+	;call GetSGBLayout
+	;call Intro_RotatePalettesLeftFrontpic
 
-	ld hl, OakText1
-	call PrintText
-	call RotateThreePalettesRight
-	call ClearTilemap
+	;ld hl, OakText1
+	;call PrintText
+	;call RotateThreePalettesRight
+	;call ClearTilemap
 
-	ld a, WOOPER
-	ld [wCurSpecies], a
-	ld [wCurPartySpecies], a
-	call GetBaseData
+	;ld a, WOOPER
+	;ld [wCurSpecies], a
+	;ld [wCurPartySpecies], a
+	;call GetBaseData
 
-	hlcoord 6, 4
-	call PrepMonFrontpic
+	;hlcoord 6, 4
+	;call PrepMonFrontpic
 
-	xor a
-	ld [wTempMonDVs], a
-	ld [wTempMonDVs + 1], a
+	;xor a
+	;ld [wTempMonDVs], a
+	;ld [wTempMonDVs + 1], a
 
-	ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS
-	call GetSGBLayout
-	call Intro_WipeInFrontpic
+	;ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS
+	;call GetSGBLayout
+	;call Intro_WipeInFrontpic
 
-	ld hl, OakText2
-	call PrintText
-	ld hl, OakText4
-	call PrintText
-	call RotateThreePalettesRight
-	call ClearTilemap
+	;ld hl, OakText2
+	;call PrintText
+	;ld hl, OakText4
+	;call PrintText
+	;call RotateThreePalettesRight
+	;call ClearTilemap
 
-	xor a
-	ld [wCurPartySpecies], a
-	ld a, POKEMON_PROF
-	ld [wTrainerClass], a
-	call Intro_PrepTrainerPic
+	;xor a
+	;ld [wCurPartySpecies], a
+	;ld a, POKEMON_PROF
+	;ld [wTrainerClass], a
+	;call Intro_PrepTrainerPic
 
-	ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS
-	call GetSGBLayout
-	call Intro_RotatePalettesLeftFrontpic
+	;ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS
+	;call GetSGBLayout
+	;call Intro_RotatePalettesLeftFrontpic
 
-	ld hl, OakText5
-	call PrintText
-	call RotateThreePalettesRight
-	call ClearTilemap
+	;ld hl, OakText5
+	;call PrintText
+	;call RotateThreePalettesRight
+	;call ClearTilemap
 
 	xor a
 	ld [wCurPartySpecies], a
