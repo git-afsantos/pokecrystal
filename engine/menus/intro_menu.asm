@@ -80,7 +80,9 @@ NewGame:
 AreYouABoyOrAreYouAGirl:
 	farcall Mobile_AlwaysReturnNotCarry ; mobile
 	jr c, .ok
-	farcall InitGender
+	;farcall InitGender
+	ld a, 0
+	ld [wPlayerGender], a
 	ret
 
 .ok
