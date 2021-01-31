@@ -1,6 +1,12 @@
 MANIA_OT_ID EQU 00518
 
 GiveShuckle:
+    ld a, FALKNER
+    ld [wScriptVar], a
+    callfar ReadPlayerParty
+    ret
+
+TempGiveShuckle:
     ld hl, wPartyCount  ; hl = wPartyCount (address)
 	xor a               ; a = 0
 	ld [hli], a         ; *hl = 0; hl++ (hl = wPartySpecies)
@@ -46,9 +52,9 @@ GiveShuckle:
 	jp hl
 
 .done
-	jp DummyReward
+	jp DummyRewardd
 
-DummyReward:
+DummyRewardd:
 	ret
 
 MyTrainerGroups:
@@ -62,99 +68,6 @@ MyFalknerGroup:
 	db  7, PIDGEY,     TACKLE, MUD_SLAP, NO_MOVE, NO_MOVE
 	db  9, PIDGEOTTO,  TACKLE, MUD_SLAP, GUST, NO_MOVE
 	db -1 ; end
-
-MyTrainerTypes:
-; entries correspond to TRAINERTYPE_* constants
-	dw MyTrainerType2 ; level, species
-	dw MyTrainerType2 ; level, species, moves
-	dw MyTrainerType2 ; level, species, item
-	dw MyTrainerType2 ; level, species, item, moves
-
-MyTrainerType2:
-; moves
-	ld h, d
-	ld l, e
-.loop
-	ld a, [hli]
-	cp $ff
-	ret z
-
-	ld [wCurPartyLevel], a
-	ld a, [hli]
-	ld [wCurPartySpecies], a
-	ld a, PARTYMON
-	ld [wMonType], a
-	;ld a, TRAINER_BATTLE
-	;ld [wBattleMode], a
-
-; TryAddMonToParty requires
-; [x] wPartyCount
-; [x] wMonType (PARTYMON)
-; [x] wCurPartySpecies
-; [?] wPartyMonOT
-; [?] wPlayerName
-; [ ] wBattleMode
-; [x] wCurPartyLevel
-	push hl
-	predef TryAddMonToParty
-	ld a, [wPartyCount]
-	dec a
-	ld hl, wPartyMon1Moves
-	ld bc, PARTYMON_STRUCT_LENGTH
-	call AddNTimes
-	ld d, h
-	ld e, l
-	pop hl
-
-	ld b, NUM_MOVES
-.copy_moves
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec b
-	jr nz, .copy_moves
-
-	push hl
-
-	ld a, [wPartyCount]
-	dec a
-	ld hl, wPartyMon1Species
-	ld bc, PARTYMON_STRUCT_LENGTH
-	call AddNTimes
-	ld d, h
-	ld e, l
-	ld hl, MON_PP
-	add hl, de
-	push hl
-	ld hl, MON_MOVES
-	add hl, de
-	pop de
-
-	ld b, NUM_MOVES
-.copy_pp
-	ld a, [hli]
-	and a
-	jr z, .copied_pp
-
-	push hl
-	push bc
-	dec a
-	ld hl, Moves + MOVE_PP
-	ld bc, MOVE_LENGTH
-	call AddNTimes
-	ld a, BANK(Moves)
-	call GetFarByte
-	pop bc
-	pop hl
-
-	ld [de], a
-	inc de
-	dec b
-	jr nz, .copy_pp
-.copied_pp
-
-	pop hl
-	jr .loop
 
 
 OldGiveShuckle:

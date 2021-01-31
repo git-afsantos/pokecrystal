@@ -312,7 +312,10 @@ InitializeWorld:
 	call ShrinkPlayer
 	farcall SpawnPlayer
 	farcall _InitializeStartDay
-	farcall GiveShuckle
+	;farcall GiveShuckle
+	ld a, BUGSY
+    ld [wScriptVar], a
+    farcall ReadPlayerParty
 	ret
 
 LoadOrRegenerateLuckyIDNumber:
