@@ -41,7 +41,7 @@ TempGiveShuckle:
 	ld b, 0
 	ld d, h
 	ld e, l
-	ld hl, MyTrainerTypes
+	;ld hl, MyTrainerTypes
 	add hl, bc
 	add hl, bc
 	ld a, [hli]

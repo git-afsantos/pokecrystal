@@ -15,7 +15,7 @@ ReadPlayerParty:
 	dec a ; zero-based index
 	ld c, a
 	ld b, 0
-	ld hl, TrainerGroups ; go to table of addresses
+	ld hl, PlayerTrainerGroups ; go to table of addresses
 	add hl, bc
 	add hl, bc  ; add twice to skip words, not bytes
 	ld a, [hli] ; save the low byte of the address
@@ -27,36 +27,29 @@ ReadPlayerParty:
 	cp "@"
 	jr nz, .skip_name
 
-	ld a, [hli] ; Trainer Type (moves, items, moves+items)
-	ld c, a
-	ld b, 0
 	ld d, h
 	ld e, l
-	ld hl, MyTrainerTypes ; needed because TrainerTypes loads to OT
-	add hl, bc
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
+	ld hl, PlayerTrainerType2
 	ld bc, .done
 	push bc
 	jp hl
 
 .done
-	jp DummyReward
-
-DummyReward:
 	ret
 
-MyTrainerTypes:
-; entries correspond to TRAINERTYPE_* constants
-	dw MyTrainerType2 ; level, species
-	dw MyTrainerType2 ; level, species, moves
-	dw MyTrainerType2 ; level, species, item
-	dw MyTrainerType2 ; level, species, item, moves
+PlayerTrainerGroups:
+; entries correspond to trainer classes (see constants/trainer_constants.asm)
+	dw PlayerFalknerGroup
 
-MyTrainerType2:
-; moves
+PlayerFalknerGroup:
+	; FALKNER (1)
+	db "FALKNER@"
+	db  50, PIDGEOT,   FLY, MIRROR_MOVE, AGILITY, QUICK_ATTACK
+	db  50, FEAROW,  DRILL_PECK, AGILITY, DOUBLE_EDGE, PURSUIT
+	db -1 ; end
+
+PlayerTrainerType2:
+; level, species, moves
 	ld h, d
 	ld l, e
 .loop
@@ -142,10 +135,6 @@ MyTrainerType2:
 	jr .loop
 
 
-
-
-
-
 ReadTrainerParty:
 	ld a, [wInBattleTowerBattle]
 	bit 0, a
@@ -167,13 +156,6 @@ ReadTrainerParty:
 	call ByteFill
 
 	ld a, [wOtherTrainerClass]
-	cp CAL
-	jr nz, .not_cal2
-	ld a, [wOtherTrainerID]
-	cp CAL2
-	jr z, .cal2
-	ld a, [wOtherTrainerClass]
-.not_cal2
 
 	dec a
 	ld c, a
@@ -202,17 +184,9 @@ ReadTrainerParty:
 	cp "@"
 	jr nz, .skip_name
 
-	ld a, [hli]
-	ld c, a
-	ld b, 0
 	ld d, h
 	ld e, l
-	ld hl, TrainerTypes
-	add hl, bc
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
+	ld hl, TrainerType4
 	ld bc, .done
 	push bc
 	jp hl
@@ -220,146 +194,9 @@ ReadTrainerParty:
 .done
 	jp ComputeTrainerReward
 
-.cal2
-	ld a, BANK(sMysteryGiftTrainer)
-	call OpenSRAM
-	ld de, sMysteryGiftTrainer
-	call TrainerType2
-	call CloseSRAM
-	jr .done
-
-TrainerTypes:
-; entries correspond to TRAINERTYPE_* constants
-	dw TrainerType1 ; level, species
-	dw TrainerType2 ; level, species, moves
-	dw TrainerType3 ; level, species, item
-	dw TrainerType4 ; level, species, item, moves
-
-TrainerType1:
-; normal (level, species)
-	ld h, d
-	ld l, e
-.loop
-	ld a, [hli]
-	cp $ff
-	ret z
-
-	ld [wCurPartyLevel], a
-	ld a, [hli]
-	ld [wCurPartySpecies], a
-	ld a, OTPARTYMON
-	ld [wMonType], a
-	push hl
-	predef TryAddMonToParty
-	pop hl
-	jr .loop
-
-TrainerType2:
-; moves
-	ld h, d
-	ld l, e
-.loop
-	ld a, [hli]
-	cp $ff
-	ret z
-
-	ld [wCurPartyLevel], a
-	ld a, [hli]
-	ld [wCurPartySpecies], a
-	ld a, OTPARTYMON
-	ld [wMonType], a
-
-	push hl
-	predef TryAddMonToParty
-	ld a, [wOTPartyCount]
-	dec a
-	ld hl, wOTPartyMon1Moves
-	ld bc, PARTYMON_STRUCT_LENGTH
-	call AddNTimes
-	ld d, h
-	ld e, l
-	pop hl
-
-	ld b, NUM_MOVES
-.copy_moves
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec b
-	jr nz, .copy_moves
-
-	push hl
-
-	ld a, [wOTPartyCount]
-	dec a
-	ld hl, wOTPartyMon1Species
-	ld bc, PARTYMON_STRUCT_LENGTH
-	call AddNTimes
-	ld d, h
-	ld e, l
-	ld hl, MON_PP
-	add hl, de
-	push hl
-	ld hl, MON_MOVES
-	add hl, de
-	pop de
-
-	ld b, NUM_MOVES
-.copy_pp
-	ld a, [hli]
-	and a
-	jr z, .copied_pp
-
-	push hl
-	push bc
-	dec a
-	ld hl, Moves + MOVE_PP
-	ld bc, MOVE_LENGTH
-	call AddNTimes
-	ld a, BANK(Moves)
-	call GetFarByte
-	pop bc
-	pop hl
-
-	ld [de], a
-	inc de
-	dec b
-	jr nz, .copy_pp
-.copied_pp
-
-	pop hl
-	jr .loop
-
-TrainerType3:
-; item
-	ld h, d
-	ld l, e
-.loop
-	ld a, [hli]
-	cp $ff
-	ret z
-
-	ld [wCurPartyLevel], a
-	ld a, [hli]
-	ld [wCurPartySpecies], a
-	ld a, OTPARTYMON
-	ld [wMonType], a
-	push hl
-	predef TryAddMonToParty
-	ld a, [wOTPartyCount]
-	dec a
-	ld hl, wOTPartyMon1Item
-	ld bc, PARTYMON_STRUCT_LENGTH
-	call AddNTimes
-	ld d, h
-	ld e, l
-	pop hl
-	ld a, [hli]
-	ld [de], a
-	jr .loop
 
 TrainerType4:
-; item + moves
+; level, species, item, moves
 	ld h, d
 	ld l, e
 .loop

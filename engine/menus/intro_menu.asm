@@ -313,7 +313,7 @@ InitializeWorld:
 	farcall SpawnPlayer
 	farcall _InitializeStartDay
 	;farcall GiveShuckle
-	ld a, BUGSY
+	ld a, FALKNER
     ld [wScriptVar], a
     farcall ReadPlayerParty
 	ret
