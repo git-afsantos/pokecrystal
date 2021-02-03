@@ -59,10 +59,21 @@ PlayerTrainerType2:
 	ld h, d
 	ld l, e
 .loop
-	ld a, [hli]
+; return if the end of the list is reached
+	ld a, [hl]
 	cp $ff
 	ret z
 
+; if the party is already full, send one to the PC
+	push hl ; save hl for later
+	ld a, [wPartyCount]
+	cp PARTY_LENGTH
+	jr nz, .read_into_party
+	call _DepositLastPokemon
+
+.read_into_party
+	pop hl
+	ld a, [hli]
 	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
@@ -139,6 +150,24 @@ PlayerTrainerType2:
 
 	pop hl
 	jr .loop
+
+
+_DepositLastPokemon:
+; send one to the PC
+; copied from Bill's PC DepositPokemon
+	ld a, PARTY_LENGTH - 1
+	ld [wCurPartyMon], a
+	ld hl, wPartyMonNicknames
+	ld a, [wCurPartyMon]
+	call GetNick
+	ld a, PC_DEPOSIT
+	ld [wPokemonWithdrawDepositParameter], a
+	predef SendGetMonIntoFromBox
+; assert not box full
+	xor a ; REMOVE_PARTY
+	ld [wPokemonWithdrawDepositParameter], a
+	farcall RemoveMonFromPartyOrBox
+    ret
 
 
 ReadTrainerParty:
