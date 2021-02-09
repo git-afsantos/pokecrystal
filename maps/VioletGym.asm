@@ -16,8 +16,9 @@ VioletGymDummyScript:
 	writetext DummyIntroText
 	waitbutton
 	closetext
-	winlosstext DummyWinLossText, 0
-	loadtrainer BUGSY, BUGSY1
+	winlosstext DummyWinText, DummyLossText
+	special LoadTPTOpponent
+	;loadtrainer BUGSY, BUGSY1
 	startbattle
 	reloadmapafterbattle
 	end
@@ -127,10 +128,15 @@ DummyIntroText:
 	text "Let's do it!"
 	done
 
-DummyWinLossText:
+DummyWinText:
 	text "All right!"
 	line "Let's do it again"
 	cont "sometime."
+	done
+
+DummyLossText:
+	text "I won! Better"
+	line "luck next time."
 	done
 
 FalknerIntroText:
