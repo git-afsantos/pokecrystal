@@ -18,8 +18,7 @@ INCLUDE "data/events/special_pointers.asm"
 LoadTPTOpponent:
 	ld a, (1 << 7) | 1
 	ld [wBattleScriptFlags], a
-	;ld a, $8
-	ld a, $3
+	ld a, $8
 	call RandomRange
 	inc a ; for some reason, indices should start at 1, `dec` used later
 	ld c, a ; store random number in [0, 7]

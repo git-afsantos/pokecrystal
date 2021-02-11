@@ -6,17 +6,17 @@
 
 GymLeaders:
 	db FALKNER
-	db WHITNEY
 	db BUGSY
+	db WHITNEY
 	db MORTY
-	db PRYCE
-	db JASMINE
 	db CHUCK
+	db JASMINE
+	db PRYCE
 	db CLAIR
 	db WILL
+	db KOGA
 	db BRUNO
 	db KAREN
-	db KOGA
 	db CHAMPION
 	db RED
 ; fallthrough

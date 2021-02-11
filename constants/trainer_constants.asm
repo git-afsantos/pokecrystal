@@ -29,29 +29,116 @@ CHRIS EQU __trainer_class__
 KRIS EQU __trainer_class__
 	trainerclass FALKNER ; 1
 	const FALKNER1
+	const FALKNER2
+	const FALKNER3
+	const FALKNER4
 
-	trainerclass WHITNEY ; 2
-	const WHITNEY1
-
-	trainerclass BUGSY ; 3
+	trainerclass BUGSY ; 2
 	const BUGSY1
+	const BUGSY2
+	const BUGSY3
+	const BUGSY4
+
+	trainerclass WHITNEY ; 3
+	const WHITNEY1
+	const WHITNEY2
+	const WHITNEY3
+	const WHITNEY4
 
 	trainerclass MORTY ; 4
 	const MORTY1
+	const MORTY2
+	const MORTY3
+	const MORTY4
 
-	trainerclass PRYCE ; 5
-	const PRYCE1
+	trainerclass CHUCK ; 5
+	const CHUCK1
+	const CHUCK2
+	const CHUCK3
+	const CHUCK4
 
 	trainerclass JASMINE ; 6
 	const JASMINE1
+	const JASMINE2
+	const JASMINE3
+	const JASMINE4
 
-	trainerclass CHUCK ; 7
-	const CHUCK1
+	trainerclass PRYCE ; 7
+	const PRYCE1
+	const PRYCE2
+	const PRYCE3
+	const PRYCE4
 
 	trainerclass CLAIR ; 8
 	const CLAIR1
+	const CLAIR2
+	const CLAIR3
+	const CLAIR4
 
-	trainerclass RIVAL1 ; 9
+	trainerclass BROCK ; 9
+	const BROCK1
+	const BROCK2
+	const BROCK3
+	const BROCK4
+
+	trainerclass MISTY ; a
+	const MISTY1
+	const MISTY2
+	const MISTY3
+	const MISTY4
+
+	trainerclass LT_SURGE ; b
+	const LT_SURGE1
+	const LT_SURGE2
+	const LT_SURGE3
+	const LT_SURGE4
+
+	trainerclass ERIKA ; c
+	const ERIKA1
+	const ERIKA2
+	const ERIKA3
+	const ERIKA4
+
+	trainerclass JANINE ; d
+	const JANINE1
+	const JANINE2
+	const JANINE3
+	const JANINE4
+
+	trainerclass SABRINA ; e
+	const SABRINA1
+	const SABRINA2
+	const SABRINA3
+	const SABRINA4
+
+	trainerclass BLAINE ; f
+	const BLAINE1
+	const BLAINE2
+	const BLAINE3
+	const BLAINE4
+
+	trainerclass BLUE ; 10
+	const BLUE1
+	const BLUE2
+	const BLUE3
+	const BLUE4
+
+	trainerclass WILL ; 11
+	const WILL1
+
+	trainerclass KOGA ; 12
+	const KOGA1
+
+	trainerclass BRUNO ; 13
+	const BRUNO1
+
+	trainerclass KAREN ; 14
+	const KAREN1
+
+	trainerclass CHAMPION ; 15
+	const LANCE
+
+	trainerclass RIVAL1 ; 11
 	const RIVAL1_1_CHIKORITA
 	const RIVAL1_1_CYNDAQUIL
 	const RIVAL1_1_TOTODILE
@@ -70,34 +157,10 @@ KRIS EQU __trainer_class__
 
 	trainerclass POKEMON_PROF ; a
 
-	trainerclass WILL ; b
-	const WILL1
-
 	trainerclass CAL ; c
 	const CAL1
 	const CAL2
 	const CAL3
-
-	trainerclass BRUNO ; d
-	const BRUNO1
-
-	trainerclass KAREN ; e
-	const KAREN1
-
-	trainerclass KOGA ; f
-	const KOGA1
-
-	trainerclass CHAMPION ; 10
-	const LANCE
-
-	trainerclass BROCK ; 11
-	const BROCK1
-
-	trainerclass MISTY ; 12
-	const MISTY1
-
-	trainerclass LT_SURGE ; 13
-	const LT_SURGE1
 
 	trainerclass SCIENTIST ; 14
 	const ROSS
@@ -105,9 +168,6 @@ KRIS EQU __trainer_class__
 	const JED
 	const MARC
 	const RICH
-
-	trainerclass ERIKA ; 15
-	const ERIKA1
 
 	trainerclass YOUNGSTER ; 16
 	const JOEY1
@@ -190,9 +250,6 @@ KRIS EQU __trainer_class__
 	const DANA3
 	const DANA4
 	const DANA5
-
-	trainerclass JANINE ; 1a
-	const JANINE1
 
 	trainerclass COOLTRAINERM ; 1b
 	const NICK
@@ -323,9 +380,6 @@ KRIS EQU __trainer_class__
 	const COLETTE
 	const HILLARY
 	const SHIRLEY
-
-	trainerclass SABRINA ; 23
-	const SABRINA1
 
 	trainerclass BUG_CATCHER ; 24
 	const DON
@@ -496,9 +550,6 @@ KRIS EQU __trainer_class__
 	const RILEY
 	const JOEL
 	const GLENN
-
-	trainerclass BLAINE ; 2e
-	const BLAINE1
 
 	trainerclass BURGLAR ; 2f
 	const DUNCAN
@@ -684,9 +735,6 @@ KRIS EQU __trainer_class__
 
 	trainerclass RED ; 3f
 	const RED1
-
-	trainerclass BLUE ; 40
-	const BLUE1
 
 	trainerclass OFFICER ; 41
 	const KEITH

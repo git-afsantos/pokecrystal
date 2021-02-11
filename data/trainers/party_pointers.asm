@@ -3,31 +3,34 @@
 TrainerGroups:
 ; entries correspond to trainer classes (see constants/trainer_constants.asm)
 	dw FalknerGroup
-	dw WhitneyGroup
 	dw BugsyGroup
+	dw WhitneyGroup
 	dw MortyGroup
-	dw PryceGroup
-	dw JasmineGroup
 	dw ChuckGroup
+	dw JasmineGroup
+	dw PryceGroup
 	dw ClairGroup
-	dw Rival1Group
-	dw PokemonProfGroup
-	dw WillGroup
-	dw PKMNTrainerGroup
-	dw BrunoGroup
-	dw KarenGroup
-	dw KogaGroup
-	dw ChampionGroup
 	dw BrockGroup
 	dw MistyGroup
 	dw LtSurgeGroup
-	dw ScientistGroup
 	dw ErikaGroup
+	dw JanineGroup
+	dw SabrinaGroup
+	dw BlaineGroup
+	dw BlueGroup
+	dw WillGroup
+	dw KogaGroup
+	dw BrunoGroup
+	dw KarenGroup
+	dw ChampionGroup
+	dw Rival1Group
+	dw PokemonProfGroup
+	dw PKMNTrainerGroup
+	dw ScientistGroup
 	dw YoungsterGroup
 	dw SchoolboyGroup
 	dw BirdKeeperGroup
 	dw LassGroup
-	dw JanineGroup
 	dw CooltrainerMGroup
 	dw CooltrainerFGroup
 	dw BeautyGroup
@@ -36,7 +39,6 @@ TrainerGroups:
 	dw GentlemanGroup
 	dw SkierGroup
 	dw TeacherGroup
-	dw SabrinaGroup
 	dw BugCatcherGroup
 	dw FisherGroup
 	dw SwimmerMGroup
@@ -47,7 +49,6 @@ TrainerGroups:
 	dw GuitaristGroup
 	dw HikerGroup
 	dw BikerGroup
-	dw BlaineGroup
 	dw BurglarGroup
 	dw FirebreatherGroup
 	dw JugglerGroup
@@ -65,7 +66,6 @@ TrainerGroups:
 	dw TwinsGroup
 	dw PokefanFGroup
 	dw RedGroup
-	dw BlueGroup
 	dw OfficerGroup
 	dw GruntFGroup
 	dw MysticalmanGroup
