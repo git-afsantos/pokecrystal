@@ -1,14 +1,14 @@
 TrainerClassDVs:
 ; entries correspond to trainer classes (see constants/trainer_constants.asm)
 	;  atk,def,spd,spc
-	dn  9, 10,  7,  7 ; FALKNER
-	dn  8,  8,  8,  8 ; WHITNEY
-	dn  9,  8,  8,  8 ; BUGSY
-	dn  9,  8,  8,  8 ; MORTY
-	dn  9,  8,  8,  8 ; PRYCE
-	dn  9,  8,  8,  8 ; JASMINE
-	dn  9,  8,  8,  8 ; CHUCK
-	dn  7, 12, 13, 13 ; CLAIR
+	dn 15, 15, 15, 15 ; FALKNER
+	dn 15, 15, 15, 15 ; BUGSY
+	dn 15, 15, 15, 15 ; WHITNEY
+	dn 15, 15, 15, 15 ; MORTY
+	dn 15, 15, 15, 15 ; CHUCK
+	dn 15, 15, 15, 15 ; JASMINE
+	dn 15, 15, 15, 15 ; PRYCE
+	dn 15, 15, 15, 15 ; CLAIR
 	dn 13, 13, 13, 13 ; RIVAL1
 	dn  9,  8,  8,  8 ; POKEMON_PROF
 	dn 13, 12, 13, 13 ; WILL
