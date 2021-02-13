@@ -887,14 +887,32 @@ wc7d0:: ds 1
 wc7d1:: ds 1
 wc7d2:: ds 1
 wc7d3:: ds 2
+
+NEXTU
+; TPT True Power Tournament
+
 ENDU
 
 ENDU
 
 ; This was a buffer for map-related pointers in the 1997 G/S prototype.
 ; See wMapBuffer in pokegold-spaceworld's wram.asm.
-wUnusedMapBuffer:: ds 24
-wUnusedMapBufferEnd::
+;wUnusedMapBuffer:: ds 24
+;wUnusedMapBufferEnd::
+
+wTPTWinners1:: db ; 8 bits
+wTPTWinners2:: db ; 8 bits
+wTPTLosers1::  db ; 8 bits
+wTPTWinners3::    ; 4 bits
+wTPTLosers2::  db ; 4 bits
+wTPTLosers3::     ; 4 bits
+wTPTLosers4::     ; 2 bits
+wTPTWinners4:: db ; 2 bits
+wTPTLosers5::     ; 2 bits
+wTPTWinners5::    ; 1 bit
+wTPTLosers6::     ; 1 bit
+wTPTLosers7::     ; 1 bit
+wTPTWinners6:: db ; 1 bit
 
 
 SECTION "Overworld Map", WRAM0
