@@ -77,3 +77,96 @@ Round2WinnersElite:
 
 Round3Winners:
     ; TODO
+
+
+
+
+
+
+
+
+TournamentLogic:
+    ; initialize matches
+    ld de, wTPTWinners1
+    ld c, OFFSET_JOHTO_CLASSES
+    call InitializeRegionTrainers
+    ld de, wTPTWinners1
+    inc de
+    ld c, OFFSET_KANTO_CLASSES
+    call InitializeRegionTrainers
+    ld de, wTPTWinners2
+    inc de
+    ld c, OFFSET_ELITE_CLASSES
+    call InitializeRegionTrainers
+    ret
+
+
+InitializeRegionTrainers:
+; assumes that de is pointing to the first slot
+; assumes that c equals the trainer class offset (J,K,E)
+    ld a, NUM_GYM_LEADERS
+    call RandomRange
+    ; go to random shuffle
+    ld hl, TrainerShuffles
+    add hl, a
+
+    ; Trainer 1
+    ld a, [hl]
+    swap a
+    and $7
+    ld [de], a
+
+    ; Trainer 2
+    inc de      ; skip trainer from another class
+    inc de      ; skip to next match
+    ld a, [hli]
+    and $7
+    ld [de], a
+
+    ; Trainer 3
+    inc de
+    inc de
+    ld a, [hl]
+    swap a
+    and $7
+    ld [de], a
+
+    ; Trainer 4
+    inc de
+    inc de
+    ld a, [hli]
+    and $7
+    ld [de], a
+
+    ; Trainer 5
+    inc de
+    inc de
+    ld a, [hl]
+    swap a
+    and $7
+    ld [de], a
+
+    ; Trainer 6
+    inc de
+    inc de
+    ld a, [hli]
+    and $7
+    ld [de], a
+
+    ; Trainer 7
+    inc de
+    inc de
+    ld a, [hl]
+    swap a
+    and $7
+    ld [de], a
+
+    ; Trainer 8
+    inc de
+    inc de
+    ld a, [hli]
+    and $7
+    ld [de], a
+
+    ret
+
