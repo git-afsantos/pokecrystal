@@ -104,16 +104,21 @@ TournamentLogic:
 InitializeRegionTrainers:
 ; assumes that de is pointing to the first slot
 ; assumes that c equals the trainer class offset (J,K,E)
+    push bc
     ld a, NUM_GYM_LEADERS
     call RandomRange
+    ld b, $0
+    ld c, a
     ; go to random shuffle
     ld hl, TrainerShuffles
-    add hl, a
+    add hl, bc
+    pop bc
 
     ; Trainer 1
     ld a, [hl]
     swap a
     and $7
+    add a, c
     ld [de], a
 
     ; Trainer 2
@@ -121,6 +126,7 @@ InitializeRegionTrainers:
     inc de      ; skip to next match
     ld a, [hli]
     and $7
+    add a, c
     ld [de], a
 
     ; Trainer 3
@@ -129,6 +135,7 @@ InitializeRegionTrainers:
     ld a, [hl]
     swap a
     and $7
+    add a, c
     ld [de], a
 
     ; Trainer 4
@@ -136,6 +143,7 @@ InitializeRegionTrainers:
     inc de
     ld a, [hli]
     and $7
+    add a, c
     ld [de], a
 
     ; Trainer 5
@@ -144,6 +152,7 @@ InitializeRegionTrainers:
     ld a, [hl]
     swap a
     and $7
+    add a, c
     ld [de], a
 
     ; Trainer 6
@@ -151,6 +160,7 @@ InitializeRegionTrainers:
     inc de
     ld a, [hli]
     and $7
+    add a, c
     ld [de], a
 
     ; Trainer 7
@@ -159,6 +169,7 @@ InitializeRegionTrainers:
     ld a, [hl]
     swap a
     and $7
+    add a, c
     ld [de], a
 
     ; Trainer 8
@@ -166,6 +177,7 @@ InitializeRegionTrainers:
     inc de
     ld a, [hli]
     and $7
+    add a, c
     ld [de], a
 
     ret
