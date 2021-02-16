@@ -119,6 +119,7 @@ InitializeRegionTrainers:
     swap a
     and $7
     add a, c
+    ;xor $00    ; use first team
     ld [de], a
 
     ; Trainer 2
@@ -127,6 +128,7 @@ InitializeRegionTrainers:
     ld a, [hli]
     and $7
     add a, c
+    xor $10     ; use second team
     ld [de], a
 
     ; Trainer 3
@@ -136,6 +138,7 @@ InitializeRegionTrainers:
     swap a
     and $7
     add a, c
+    xor $20     ; use third team
     ld [de], a
 
     ; Trainer 4
@@ -144,6 +147,7 @@ InitializeRegionTrainers:
     ld a, [hli]
     and $7
     add a, c
+    xor $30     ; use fourth team
     ld [de], a
 
     ; Trainer 5
@@ -153,6 +157,7 @@ InitializeRegionTrainers:
     swap a
     and $7
     add a, c
+    ;xor $00    ; use first team
     ld [de], a
 
     ; Trainer 6
@@ -161,6 +166,7 @@ InitializeRegionTrainers:
     ld a, [hli]
     and $7
     add a, c
+    xor $10     ; use second team
     ld [de], a
 
     ; Trainer 7
@@ -170,6 +176,7 @@ InitializeRegionTrainers:
     swap a
     and $7
     add a, c
+    xor $20     ; use third team
     ld [de], a
 
     ; Trainer 8
@@ -178,6 +185,7 @@ InitializeRegionTrainers:
     ld a, [hli]
     and $7
     add a, c
+    xor $30     ; use fourth team
     ld [de], a
 
     ret
