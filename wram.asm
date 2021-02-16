@@ -888,9 +888,6 @@ wc7d1:: ds 1
 wc7d2:: ds 1
 wc7d3:: ds 2
 
-NEXTU
-; TPT True Power Tournament
-
 ENDU
 
 ENDU
@@ -900,19 +897,50 @@ ENDU
 ;wUnusedMapBuffer:: ds 24
 ;wUnusedMapBufferEnd::
 
-wTPTWinners1:: db ; 8 bits
-wTPTWinners2:: db ; 8 bits
-wTPTLosers1::  db ; 8 bits
-wTPTWinners3::    ; 4 bits
-wTPTLosers2::  db ; 4 bits
-wTPTLosers3::     ; 4 bits
-wTPTLosers4::     ; 2 bits
-wTPTWinners4:: db ; 2 bits
-wTPTLosers5::     ; 2 bits
-wTPTWinners5::    ; 1 bit
-wTPTLosers6::     ; 1 bit
-wTPTLosers7::     ; 1 bit
-wTPTWinners6:: db ; 1 bit
+;wTPTWinners1:: db ; 8 bits
+;wTPTWinners2:: db ; 8 bits
+;wTPTLosers1::  db ; 8 bits
+;wTPTWinners3::    ; 4 bits
+;wTPTLosers2::  db ; 4 bits
+;wTPTLosers3::     ; 4 bits
+;wTPTLosers4::     ; 2 bits
+;wTPTWinners4:: db ; 2 bits
+;wTPTLosers5::     ; 2 bits
+;wTPTWinners5::    ; 1 bit
+;wTPTLosers6::     ; 1 bit
+;wTPTLosers7::     ; 1 bit
+;wTPTWinners6:: db ; 1 bit
+
+; TPT True Power Tournament
+; Each Round has a number of Matches.
+; Each Match has two Trainers.
+; Each Trainer uses one byte:
+;   wTPTWinners1Match1::
+;   wTPTWinners1Match1Trainer1:: db
+;   wTPTWinners1Match1Trainer2:: db
+; etc.
+; Technically, we only need to save one round at a time.
+; We do not need past data.
+; The largest rounds are composed of 8 games (16 bytes).
+; The previous unused memory has 24 bytes, which leaves
+;   8 bytes left over for other stuff (buffers, player data).
+wTPTWinnersBracket::
+wTPTLosersBracket::
+wTPTWinners1::  ; Winners Bracket Round 1
+wTPTWinners2::  ; Winners Bracket Round 2
+wTPTWinners3::  ; Winners Bracket Round 3
+wTPTWinners4::  ; Winners Bracket Round 4
+wTPTWinners5::  ; Winners Bracket Round 5
+wTPTWinners6::  ; Winners Bracket Round 6
+wTPTLosers1::   ; Losers Bracket Round 1
+wTPTLosers2::   ; Losers Bracket Round 2
+wTPTLosers3::   ; Losers Bracket Round 3
+wTPTLosers4::   ; Losers Bracket Round 4
+wTPTLosers5::   ; Losers Bracket Round 5
+wTPTLosers6::   ; Losers Bracket Round 6
+wTPTLosers7::   ; Losers Bracket Round 7
+wTPTRound:: ds 16
+    ds 8
 
 
 SECTION "Overworld Map", WRAM0
