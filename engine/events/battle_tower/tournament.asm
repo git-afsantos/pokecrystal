@@ -86,15 +86,41 @@ Round3Winners:
 
 
 TournamentLogic:
-    ; initialize matches
-    ld de, wTPTWinners1
+    call InitializeWinners1
+    ld a, [wTPTPlayerClass]
+    ;cp OFFSET_ELITE_CLASSES
+    ;jr c, .is_gym_leader
+    call PlayWinners1
+    ret
+
+
+PlayWinners1:
+    ld hl, wTPTWinnersBracket
+    ld a, [hli]
+    ld [wTPTTrainer1], a    ; this byte is [1][2][5]
+                            ; 1 bit leftover/flag
+                            ; 2 bits trainer id [0,3]
+                            ; 5 bits trainer class [0, 23]
+    ld a, [hli]
+    ld [wTPTTrainer2], a
+
+    ret
+
+
+InitializeWinners1:
+; [Johto Gym Leaders] vs [Kanto Gym Leaders]
+    ld de, wTPTWinnersBracket
     ld c, OFFSET_JOHTO_CLASSES
     call InitializeRegionTrainers
-    ld de, wTPTWinners1
+    ld de, wTPTWinnersBracket
     inc de
     ld c, OFFSET_KANTO_CLASSES
     call InitializeRegionTrainers
-    ld de, wTPTWinners2
+    ret
+
+InitializeWinners2:
+; [Winners of Round 1] vs [Elite Trainers]
+    ld de, wTPTWinnersBracket
     inc de
     ld c, OFFSET_ELITE_CLASSES
     call InitializeRegionTrainers

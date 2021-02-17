@@ -919,28 +919,19 @@ ENDU
 ;   wTPTWinners1Match1Trainer1:: db
 ;   wTPTWinners1Match1Trainer2:: db
 ; etc.
-; Technically, we only need to save one round at a time.
+; Technically, we only need to save
+;   one round of each bracket at a time.
 ; We do not need past data.
 ; The largest rounds are composed of 8 games (16 bytes).
-; The previous unused memory has 24 bytes, which leaves
-;   8 bytes left over for other stuff (buffers, player data).
-wTPTWinnersBracket::
-wTPTLosersBracket::
-wTPTWinners1::  ; Winners Bracket Round 1
-wTPTWinners2::  ; Winners Bracket Round 2
-wTPTWinners3::  ; Winners Bracket Round 3
-wTPTWinners4::  ; Winners Bracket Round 4
-wTPTWinners5::  ; Winners Bracket Round 5
-wTPTWinners6::  ; Winners Bracket Round 6
-wTPTLosers1::   ; Losers Bracket Round 1
-wTPTLosers2::   ; Losers Bracket Round 2
-wTPTLosers3::   ; Losers Bracket Round 3
-wTPTLosers4::   ; Losers Bracket Round 4
-wTPTLosers5::   ; Losers Bracket Round 5
-wTPTLosers6::   ; Losers Bracket Round 6
-wTPTLosers7::   ; Losers Bracket Round 7
-wTPTRound:: ds 16
-    ds 8
+wTPTWinnersBracket:: ds 16
+wTPTLosersBracket:: ds 16
+
+wTPTPlayerClass:: db
+
+wTPTTrainer1:: db
+wTPTTrainer2:: db
+
+; wTPTFlags:: db
 
 
 SECTION "Overworld Map", WRAM0
