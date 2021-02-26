@@ -84,8 +84,8 @@ Round3Winners:
 
 
 
-
-TournamentLogic:
+; special for script
+InitializeTournament:
     call InitializeWinners1
     ld a, [wTPTPlayerClass]
     ;cp OFFSET_ELITE_CLASSES
@@ -94,17 +94,81 @@ TournamentLogic:
     ret
 
 
+; this is going to be a script
 PlayWinners1:
     ld hl, wTPTWinnersBracket
+    call LoadWinnersMatch
+    call LoadWinnersMatch
+    call LoadWinnersMatch
+    ; ...
+    ret
+
+
+; special for a script
+LoadNextMatch:
+    push bc
+    ld a, [wTPTPlayerClass]
+    ld c, a
+    
+    ld hl, wTPTNextMatch
     ld a, [hli]
     ld [wTPTTrainer1], a    ; this byte is [1][2][5]
                             ; 1 bit leftover/flag
                             ; 2 bits trainer id [0,3]
                             ; 5 bits trainer class [0, 23]
-    ld a, [hli]
-    ld [wTPTTrainer2], a
+    and TRAINER_CLASS_BIT_MASK
+    cp c
+    jr z, .player_is_first
 
+    ld a, [hl]
+    ld [wTPTTrainer2], a
+    and TRAINER_CLASS_BIT_MASK
+    cp c
+    jr z, .player_is_second
+
+    ; none of the participants is the player
+    pop bc
+    ; TODO set some flag that scripts can use to check if player plays
     ret
+
+.player_is_first
+    inc hl      ; fetch the opponent
+    ld a, [hl]
+    ld [wTPTTrainer2], a
+    and TRAINER_CLASS_BIT_MASK  ; load the opponent's team
+    ld [wOtherTrainerClass], a
+    ld a, [hl]
+    and TRAINER_TEAM_BIT_MASK
+    ; shift right (sra) 5 times is 40 cycles
+    ; swap (upper with lower) and shift right (sra) is 16 cycles
+    ; rotate right (rrca) 5 times is 20 cycles
+    ; rotate left (rlca) 3 times is 12 cycles
+    rlca
+    rlca
+    rlca
+    ld [wOtherTrainerID], a
+    farcall ReadTrainerParty
+
+    pop bc
+    ; TODO set some flag that scripts can use to check if player plays
+    ret
+
+.player_is_second
+    ld a, [wTPTTrainer1]    ; fetch the opponent
+    and TRAINER_CLASS_BIT_MASK  ; load the opponent's team
+    ld [wOtherTrainerClass], a
+    ld a, [hl]
+    and TRAINER_TEAM_BIT_MASK
+    rlca    ; rotate left 3 times is 12 cycles
+    rlca
+    rlca
+    ld [wOtherTrainerID], a
+    farcall ReadTrainerParty
+
+    pop bc
+    ; TODO set some flag that scripts can use to check if player plays
+    ret
+
 
 
 InitializeWinners1:
@@ -143,7 +207,7 @@ InitializeRegionTrainers:
     ; Trainer 1
     ld a, [hl]
     swap a
-    and $7
+    and CLASS_OFFSET_BIT_MASK
     add a, c
     ;xor $00    ; use first team
     ld [de], a
@@ -152,9 +216,9 @@ InitializeRegionTrainers:
     inc de      ; skip trainer from another class
     inc de      ; skip to next match
     ld a, [hli]
-    and $7
+    and CLASS_OFFSET_BIT_MASK
     add a, c
-    xor $10     ; use second team
+    xor TRAINER_SET_TEAM2 ; use second team
     ld [de], a
 
     ; Trainer 3
@@ -162,18 +226,18 @@ InitializeRegionTrainers:
     inc de
     ld a, [hl]
     swap a
-    and $7
+    and CLASS_OFFSET_BIT_MASK
     add a, c
-    xor $20     ; use third team
+    xor TRAINER_SET_TEAM3 ; use third team
     ld [de], a
 
     ; Trainer 4
     inc de
     inc de
     ld a, [hli]
-    and $7
+    and CLASS_OFFSET_BIT_MASK
     add a, c
-    xor $30     ; use fourth team
+    xor TRAINER_SET_TEAM4 ; use fourth team
     ld [de], a
 
     ; Trainer 5
@@ -181,7 +245,7 @@ InitializeRegionTrainers:
     inc de
     ld a, [hl]
     swap a
-    and $7
+    and CLASS_OFFSET_BIT_MASK
     add a, c
     ;xor $00    ; use first team
     ld [de], a
@@ -190,9 +254,9 @@ InitializeRegionTrainers:
     inc de
     inc de
     ld a, [hli]
-    and $7
+    and CLASS_OFFSET_BIT_MASK
     add a, c
-    xor $10     ; use second team
+    xor TRAINER_SET_TEAM2 ; use second team
     ld [de], a
 
     ; Trainer 7
@@ -200,18 +264,18 @@ InitializeRegionTrainers:
     inc de
     ld a, [hl]
     swap a
-    and $7
+    and CLASS_OFFSET_BIT_MASK
     add a, c
-    xor $20     ; use third team
+    xor TRAINER_SET_TEAM3 ; use third team
     ld [de], a
 
     ; Trainer 8
     inc de
     inc de
     ld a, [hli]
-    and $7
+    and CLASS_OFFSET_BIT_MASK
     add a, c
-    xor $30     ; use fourth team
+    xor TRAINER_SET_TEAM4 ; use fourth team
     ld [de], a
 
     ret

@@ -928,6 +928,7 @@ wTPTLosersBracket:: ds 16
 
 wTPTPlayerClass:: db
 
+wTPTNextMatch:: dw ; pointer
 wTPTTrainer1:: db
 wTPTTrainer2:: db
 
