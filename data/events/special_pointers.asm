@@ -182,4 +182,8 @@ SpecialsPointers::
 
 	add_special InitialSetDSTFlag
 	add_special InitialClearDSTFlag
+
 	add_special LoadTPTOpponent
+	add_special TPTInitializeWinners1
+	add_special TPTInitializeWinners2
+	add_special TPTLoadNextMatch

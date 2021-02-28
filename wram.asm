@@ -923,12 +923,12 @@ ENDU
 ;   one round of each bracket at a time.
 ; We do not need past data.
 ; The largest rounds are composed of 8 games (16 bytes).
+wTPTBrackets::
 wTPTWinnersBracket:: ds 16
 wTPTLosersBracket:: ds 16
 
 wTPTPlayerClass:: db
 
-wTPTNextMatch:: dw ; pointer
 wTPTTrainer1:: db
 wTPTTrainer2:: db
 

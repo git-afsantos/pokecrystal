@@ -15,6 +15,8 @@ Special::
 
 INCLUDE "data/events/special_pointers.asm"
 
+INCLUDE "engine/events/battle_tower/tournament.asm"
+
 LoadTPTOpponent:
 	ld a, (1 << 7) | 1
 	ld [wBattleScriptFlags], a
