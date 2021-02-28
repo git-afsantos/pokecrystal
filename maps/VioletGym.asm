@@ -12,15 +12,24 @@ VioletGym_MapScripts:
 
 VioletGymDummyScript:
 	faceplayer
+	special TPTInitializeWinners1
+	setval 0
 	opentext
+	special TPTLoadNextMatch
+	iffalse .NotPlayerMatch
 	writetext DummyIntroText
 	waitbutton
 	closetext
 	winlosstext DummyWinText, DummyLossText
-	special LoadTPTOpponent
-	;loadtrainer BUGSY, BUGSY1
+	;special LoadTPTOpponent
 	startbattle
 	reloadmapafterbattle
+	end
+
+.NotPlayerMatch:
+	writetext DummyNotPlayerText
+	waitbutton
+	closetext
 	end
 
 VioletGymFalknerScript:
@@ -138,6 +147,11 @@ DummyLossText:
 	text "I won! Better"
 	line "luck next time."
 	done
+
+DummyNotPlayerText:
+    text "Not your match."
+    line "Please try again."
+    done
 
 FalknerIntroText:
 	text "I'm FALKNER, the"

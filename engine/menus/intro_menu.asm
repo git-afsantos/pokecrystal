@@ -312,9 +312,9 @@ InitializeWorld:
 	call ShrinkPlayer
 	farcall SpawnPlayer
 	farcall _InitializeStartDay
-	;farcall GiveShuckle
 	ld a, FALKNER
     ld [wScriptVar], a
+    ld [wTPTPlayerClass], a
     farcall ReadPlayerParty
 	ret
 

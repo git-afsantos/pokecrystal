@@ -58,8 +58,7 @@ TPTLoadNextMatch:
     ret
 
 .player_is_first
-    inc hl      ; fetch the opponent
-    ld a, [hl]
+    ld a, [hl]  ; fetch the opponent
     ld [wTPTTrainer2], a
     and TRAINER_CLASS_BIT_MASK  ; load the opponent's team
     ld [wOtherTrainerClass], a
@@ -72,6 +71,7 @@ TPTLoadNextMatch:
     rlca
     rlca
     rlca
+    inc a   ; ids start at 1
     ld [wOtherTrainerID], a
     farcall ReadTrainerParty
 
@@ -89,6 +89,7 @@ TPTLoadNextMatch:
     rlca    ; rotate left 3 times is 12 cycles
     rlca
     rlca
+    inc a   ; ids start at 1
     ld [wOtherTrainerID], a
     farcall ReadTrainerParty
 
@@ -139,6 +140,7 @@ InitializeRegionTrainers:
     swap a
     and CLASS_OFFSET_BIT_MASK
     add a, c
+    inc a       ; classes start at 1
     ;xor $00    ; use first team
     ld [de], a
 
@@ -148,6 +150,7 @@ InitializeRegionTrainers:
     ld a, [hli]
     and CLASS_OFFSET_BIT_MASK
     add a, c
+    inc a       ; classes start at 1
     xor TRAINER_SET_TEAM2 ; use second team
     ld [de], a
 
@@ -158,6 +161,7 @@ InitializeRegionTrainers:
     swap a
     and CLASS_OFFSET_BIT_MASK
     add a, c
+    inc a       ; classes start at 1
     xor TRAINER_SET_TEAM3 ; use third team
     ld [de], a
 
@@ -167,6 +171,7 @@ InitializeRegionTrainers:
     ld a, [hli]
     and CLASS_OFFSET_BIT_MASK
     add a, c
+    inc a       ; classes start at 1
     xor TRAINER_SET_TEAM4 ; use fourth team
     ld [de], a
 
@@ -177,6 +182,7 @@ InitializeRegionTrainers:
     swap a
     and CLASS_OFFSET_BIT_MASK
     add a, c
+    inc a       ; classes start at 1
     ;xor $00    ; use first team
     ld [de], a
 
@@ -186,6 +192,7 @@ InitializeRegionTrainers:
     ld a, [hli]
     and CLASS_OFFSET_BIT_MASK
     add a, c
+    inc a       ; classes start at 1
     xor TRAINER_SET_TEAM2 ; use second team
     ld [de], a
 
@@ -196,6 +203,7 @@ InitializeRegionTrainers:
     swap a
     and CLASS_OFFSET_BIT_MASK
     add a, c
+    inc a       ; classes start at 1
     xor TRAINER_SET_TEAM3 ; use third team
     ld [de], a
 
@@ -205,6 +213,7 @@ InitializeRegionTrainers:
     ld a, [hli]
     and CLASS_OFFSET_BIT_MASK
     add a, c
+    inc a       ; classes start at 1
     xor TRAINER_SET_TEAM4 ; use fourth team
     ld [de], a
 
