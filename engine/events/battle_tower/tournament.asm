@@ -99,6 +99,23 @@ TPTLoadNextMatch:
     ret
 
 
+TPTSimulateMatch:
+    call Random
+    and $1
+    jr z, .trainer2_won
+    ; leave trainers as they are
+    ret
+
+.trainer2_won
+    ld a, [wTPTTrainer1]
+    ld b, a
+    ld a, [wTPTTrainer2]
+    ld [wTPTMatchWinner], a
+    ld a, b
+    ld [wTPTMatchLoser], a
+    ret
+
+
 TPTInitializeWinners1:
 ; [Johto Gym Leaders] vs [Kanto Gym Leaders]
     ld de, wTPTWinnersBracket

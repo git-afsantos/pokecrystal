@@ -929,7 +929,9 @@ wTPTLosersBracket:: ds 16
 
 wTPTPlayerClass:: db
 
+wTPTMatchWinner::
 wTPTTrainer1:: db
+wTPTMatchLoser::
 wTPTTrainer2:: db
 
 ; wTPTFlags:: db

@@ -1062,3 +1062,10 @@ ENDM
 checksave: MACRO
 	db checksave_command
 ENDM
+
+	const movealongbracket_command ; $aa
+movealongbracket: MACRO
+	db movealongbracket_command
+	dw \1 ; pointer
+	dw \2 ; pointer
+ENDM

@@ -233,6 +233,7 @@ ScriptCommandTable:
 	dw Script_getname                    ; a7
 	dw Script_wait                       ; a8
 	dw Script_checksave                  ; a9
+	dw Script_movealongbracket           ; aa
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2360,3 +2361,20 @@ Script_checkver_duplicate: ; unreferenced
 
 .gs_version
 	db GS_VERSION
+
+
+Script_movealongbracket:
+	call GetScriptByte
+	ld e, a
+	call GetScriptByte
+	ld d, a
+	ld a, [wTPTMatchWinner]
+	ld [de], a
+
+	call GetScriptByte
+	ld e, a
+	call GetScriptByte
+	ld d, a
+	ld a, [wTPTMatchLoser]
+	ld [de], a
+	ret

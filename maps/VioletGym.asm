@@ -23,6 +23,7 @@ VioletGymDummyScript:
 	winlosstext DummyWinText, DummyLossText
 	;special LoadTPTOpponent
 	startbattle
+	movealongbracket wTPTWinnersBracket + 0, wTPTLosersBracket + 0
 	reloadmapafterbattle
 	end
 
@@ -30,6 +31,7 @@ VioletGymDummyScript:
 	writetext DummyNotPlayerText
 	waitbutton
 	closetext
+	special TPTSimulateMatch
 	end
 
 VioletGymFalknerScript:
