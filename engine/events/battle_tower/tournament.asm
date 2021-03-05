@@ -26,6 +26,8 @@
 
 
 ; special for a script
+; wScriptVar should contain an offset in bytes, counting from wTPTBrackets
+;   and pointing to the current match (first trainer)
 TPTLoadNextMatch:
     push bc
     ld c, 2             ; 2 bytes per match
