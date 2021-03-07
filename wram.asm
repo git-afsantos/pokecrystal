@@ -927,12 +927,13 @@ wTPTBrackets::
 wTPTWinnersBracket:: ds 16
 wTPTLosersBracket:: ds 16
 
-wTPTPlayerClass:: db
-
 wTPTMatchWinner::
 wTPTTrainer1:: db
+wTPTEliminated::
 wTPTMatchLoser::
 wTPTTrainer2:: db
+
+wTPTPlayerClass:: db
 
 ; wTPTFlags:: db
 

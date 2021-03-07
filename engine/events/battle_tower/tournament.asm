@@ -25,6 +25,9 @@
 ;    ret
 
 
+INCLUDE "data/events/tournament.asm"
+
+
 ; special for a script
 ; wScriptVar should contain an offset in bytes, counting from wTPTBrackets
 ;   and pointing to the current match (first trainer)
