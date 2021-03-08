@@ -25,19 +25,21 @@
 ;    ret
 
 
-INCLUDE "data/events/tournament.asm"
+INCLUDE "data/events/tournament_data.asm"
 
 
 ; special for a script
-; wScriptVar should contain an offset in bytes, counting from wTPTBrackets
-;   and pointing to the current match (first trainer)
 TPTLoadNextMatch:
     push bc
-    ld c, 2             ; 2 bytes per match
+    ld c, 2         ; 2 bytes per match
     ld b, 0
-    ld a, [wScriptVar]  ; offset to skip
-    ld hl, wTPTBrackets ; from the start
-    call AddNTimes      ; hl now points to the next match
+    ld a, [wTPTNextMatch]
+    ld l, a
+    ld a, [wTPTNextMatch + 1]
+    ld h, a
+    ld a, [hl]      ; offset to skip from...
+    ld hl, wTPTBrackets
+    call AddNTimes  ; hl now points to the next match
 
     ld a, [wTPTPlayerClass]
     ld c, a
@@ -130,6 +132,11 @@ TPTInitializeWinners1:
     inc de
     ld c, OFFSET_KANTO_CLASSES
     call InitializeRegionTrainers
+    ld de, TPTWinnersRound1Matches
+    ld hl, wTPTNextMatch
+    ld [hl], e
+    inc hl
+    ld [hl], d
     ret
 
 
@@ -139,6 +146,11 @@ TPTInitializeWinners2:
     inc de
     ld c, OFFSET_ELITE_CLASSES
     call InitializeRegionTrainers
+    ld de, TPTWinnersRound2Matches
+    ld hl, wTPTNextMatch
+    ld [hl], e
+    inc hl
+    ld [hl], d
     ret
 
 

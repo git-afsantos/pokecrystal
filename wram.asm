@@ -935,6 +935,9 @@ wTPTTrainer2:: db
 
 wTPTPlayerClass:: db
 
+wTPTNextMatch:: dw ; pointer to data table entry
+; see: data/events/tournament_data.asm
+
 ; wTPTFlags:: db
 
 

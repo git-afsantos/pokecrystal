@@ -2364,17 +2364,35 @@ Script_checkver_duplicate: ; unreferenced
 
 
 Script_movealongbracket:
-	call GetScriptByte
-	ld e, a
-	call GetScriptByte
-	ld d, a
-	ld a, [wTPTMatchWinner]
-	ld [de], a
+    ld a, [wTPTNextMatch]
+    ld l, a
+    ld a, [wTPTNextMatch + 1]
+    ld h, a
+    ; hl is now pointing to the correct data entry
+    inc hl      ; skip offset to current match
 
-	call GetScriptByte
-	ld e, a
-	call GetScriptByte
-	ld d, a
-	ld a, [wTPTMatchLoser]
-	ld [de], a
+    ld a, [hli] ; get offset to store winner
+    ld de, wTPTBrackets
+.loop1
+    and a
+    jr z, .store_winner
+    inc de
+    dec a
+    jr .loop1
+.store_winner
+    ld a, [wTPTMatchWinner]
+    ld [de], a
+
+    ld a, [hl] ; get offset to store loser
+    ld de, wTPTBrackets
+.loop2
+    and a
+    jr z, .store_loser
+    inc de
+    dec a
+    jr .loop2
+.store_loser
+    ld a, [wTPTMatchLoser]
+    ld [de], a
+
 	ret

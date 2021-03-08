@@ -12,7 +12,7 @@ VioletGym_MapScripts:
 
 VioletGymDummyScript:
 	faceplayer
-	setval 0
+	;setval 0
 	opentext
 	special TPTLoadNextMatch
 	iffalse .NotPlayerMatch
@@ -22,7 +22,7 @@ VioletGymDummyScript:
 	winlosstext DummyWinText, DummyLossText
 	;special LoadTPTOpponent
 	startbattle
-	movealongbracket wTPTWinnersBracket + 0, wTPTLosersBracket + 0
+	movealongbracket
 	reloadmapafterbattle
 	end
 
