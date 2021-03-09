@@ -1177,9 +1177,9 @@ Script_reloadmapafterbattle:
 	and $ff ^ BATTLERESULT_BITMASK
 	cp LOSE
 	jr nz, .notblackedout
-	ld b, BANK(Script_BattleWhiteout)
-	ld hl, Script_BattleWhiteout
-	jp ScriptJump
+	;ld b, BANK(Script_BattleWhiteout)
+	;ld hl, Script_BattleWhiteout
+	;jp ScriptJump
 
 .notblackedout
 	bit 0, d
@@ -2362,6 +2362,8 @@ Script_checkver_duplicate: ; unreferenced
 .gs_version
 	db GS_VERSION
 
+
+Script_setbattleresult:
 
 Script_movealongbracket:
     ld a, [wTPTNextMatch]
