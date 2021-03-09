@@ -30,6 +30,8 @@ INCLUDE "data/events/tournament_data.asm"
 
 ; special for a script
 TPTLoadNextMatch:
+    ld a, 0
+    ld [wTPTFlags], a
     push bc
     ld c, 2         ; 2 bytes per match
     ld b, 0
@@ -84,6 +86,10 @@ TPTLoadNextMatch:
 
     ld a, 1
     ld [wScriptVar], a  ; player participates
+    ld a, [wTPTFlags]
+    xor $80 ; player participates
+    xor $40 ; player is first
+    ld [wTPTFlags], a
     pop bc
     ret
 
@@ -102,6 +108,9 @@ TPTLoadNextMatch:
 
     ld a, 1
     ld [wScriptVar], a  ; player participates
+    ld a, [wTPTFlags]
+    xor $80 ; player participates
+    ld [wTPTFlags], a
     pop bc
     ret
 

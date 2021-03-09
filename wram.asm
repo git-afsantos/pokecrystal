@@ -938,7 +938,15 @@ wTPTPlayerClass:: db
 wTPTNextMatch:: dw ; pointer to data table entry
 ; see: data/events/tournament_data.asm
 
-; wTPTFlags:: db
+wTPTFlags:: db
+; bit 0 -
+; bit 1 -
+; bit 2 -
+; bit 3 -
+; bit 4 -
+; bit 5 -
+; bit 6 - player is trainer 1
+; bit 7 - player participates in battle
 
 
 SECTION "Overworld Map", WRAM0
