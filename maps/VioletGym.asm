@@ -23,8 +23,8 @@ VioletGymDummyScript:
 	special TPTPlayerBattle
 	reloadmapafterbattle
 	special TPTUpdateBrackets
-	checknextround
-	iffalse .EndOfRound
+	checkroundended
+	iftrue .EndOfRound
 	end
 
 .NotPlayerMatch:
@@ -33,8 +33,8 @@ VioletGymDummyScript:
 	closetext
 	special TPTSimulateMatch
 	special TPTUpdateBrackets
-	checknextround
-	iffalse .EndOfRound
+	checkroundended
+	iftrue .EndOfRound
 	end
 
 .EndOfRound:

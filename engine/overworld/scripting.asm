@@ -2367,7 +2367,7 @@ Script_checksave:
 	ret
 
 
-Script_checknextround:
+Script_checkroundended:
     ;ld a, [wTPTNextMatch]
     ;ld l, a
     ;ld a, [wTPTNextMatch + 1]

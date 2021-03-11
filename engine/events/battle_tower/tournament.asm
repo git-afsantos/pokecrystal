@@ -7,6 +7,8 @@ INCLUDE "data/events/tournament_data.asm"
 
 ; special for a script
 TPTLoadNextMatch:
+    xor a
+    ld [wTPTVar], a
     ;push bc
     ld c, 2         ; 2 bytes per match
     ld b, 0

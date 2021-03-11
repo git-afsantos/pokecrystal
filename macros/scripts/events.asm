@@ -1064,9 +1064,9 @@ checksave: MACRO
 ENDM
 
 
-	const checknextround_command ; $aa
-checknextround: MACRO
-	db checknextround_command
+	const checkroundended_command ; $aa
+checkroundended: MACRO
+	db checkroundended_command
 ENDM
 
 	const checkplayermatch_command ; $ab
