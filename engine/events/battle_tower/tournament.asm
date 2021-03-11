@@ -7,7 +7,7 @@ INCLUDE "data/events/tournament_data.asm"
 
 ; special for a script
 TPTLoadNextMatch:
-    push bc
+    ;push bc
     ld c, 2         ; 2 bytes per match
     ld b, 0
     ld a, [wTPTNextMatch]
@@ -41,7 +41,7 @@ TPTLoadNextMatch:
     ld a, [wTPTPlayerData]
     and TRAINER_CLASS_BIT_MASK      ; reset flags
     ld [wTPTPlayerData], a
-    pop bc
+    ;pop bc
     ret
 
 .player_is_first
@@ -69,7 +69,7 @@ TPTLoadNextMatch:
     xor TPT_PLAYER_BATTLE_FLAG      ; player participates
     xor TPT_PLAYER_TRAINER1_FLAG    ; player is first
     ld [wTPTPlayerData], a
-    pop bc
+    ;pop bc
     ret
 
 .player_is_second
@@ -91,7 +91,55 @@ TPTLoadNextMatch:
     and TRAINER_CLASS_BIT_MASK      ; reset flags
     xor TPT_PLAYER_BATTLE_FLAG      ; player participates
     ld [wTPTPlayerData], a
-    pop bc
+    ;pop bc
+    ret
+
+; TPT battle in which the player participates
+TPTPlayerBattle:
+    call BufferScreen
+    predef StartBattle
+
+    ld a, [wBattleResult]
+    and $ff ^ BATTLERESULT_BITMASK
+    ld [wScriptVar], a
+    cp LOSE
+    jr nz, .player_won
+; else: player lost
+    ld a, [wTPTPlayerData]
+    xor TPT_PLAYER_LOST_FLAG
+    ld [wTPTPlayerData], a      ; update loss flag
+    and TPT_PLAYER_LOST_FLAG
+    jr nz, .lost_first_time
+; if zero, already lost twice; signal end of tournament
+    ld a, TPT_TOURNAMENT_ENDED
+    ld [wTPTVar], a
+    ret
+
+.lost_first_time
+    ld a, [wTPTPlayerData]
+    and TPT_PLAYER_TRAINER1_FLAG
+    jr z, .done     ; player lost and is second, both are in place
+; else: swap trainers
+    ld a, [wTPTTrainer1]
+    ld b, a
+    ld a, [wTPTTrainer2]
+    ld [wTPTMatchWinner], a
+    ld a, b
+    ld [wTPTMatchLoser], a
+    ret
+
+.player_won
+    ld a, [wTPTPlayerData]
+    and TPT_PLAYER_TRAINER1_FLAG
+    jr nz, .done    ; player won and is first, both are in place
+; else: swap trainers
+    ld a, [wTPTTrainer1]
+    ld b, a
+    ld a, [wTPTTrainer2]
+    ld [wTPTMatchWinner], a
+    ld a, b
+    ld [wTPTMatchLoser], a
+.done
     ret
 
 ; this is supposed to be called after a match

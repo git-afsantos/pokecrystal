@@ -20,7 +20,7 @@ VioletGymDummyScript:
 	waitbutton
 	closetext
 	winlosstext DummyWinText, DummyLossText
-	startbattle
+	special TPTPlayerBattle
 	reloadmapafterbattle
 	end
 

@@ -236,6 +236,7 @@ ScriptCommandTable:
 	dw Script_checknextround             ; aa
 	dw Script_checkplayermatch           ; ab
 	dw Script_checkplayerfirst           ; ac
+	dw Script_checktptended              ; ad
 
 StartScript:
 	ld hl, wScriptFlags
@@ -1181,10 +1182,9 @@ Script_reloadmapafterbattle:
 	jr nz, .notblackedout
 	bit 1, d
 	jr z, .blackedout
-	ld a, [wTPTPlayerData]
-	xor TPT_PLAYER_LOST_FLAG
-	ld [wTPTPlayerData], a
-	and TPT_PLAYER_LOST_FLAG
+; after TPT battle loss
+	ld a, [wTPTVar]
+	cp TPT_TOURNAMENT_ENDED
 	jr nz, .done
 ; if zero, already lost twice; fallthrough to whiteout
 
@@ -2373,7 +2373,7 @@ Script_checknextround:
     ld a, [wTPTNextMatch + 1]
     ld h, a
     ld a, [hl]  ; offset to skip from
-    sub -1
+    sub TPT_ROUND_ENDED
     ld [wScriptVar], a
     ret
 
@@ -2386,6 +2386,18 @@ Script_checkplayermatch:
 Script_checkplayerfirst:
     ld a, [wTPTPlayerData]
     and TPT_PLAYER_TRAINER1_FLAG  ; player is first
+    ld [wScriptVar], a
+    ret
+
+Script_checktptended:
+    ld a, [wTPTVar]
+    cp TPT_TOURNAMENT_ENDED
+    jr z, .ended
+    xor a
+    ld [wScriptVar], a
+    ret
+.ended
+    ld a, 1
     ld [wScriptVar], a
     ret
 

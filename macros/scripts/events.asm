@@ -1079,3 +1079,8 @@ checkplayerfirst: MACRO
 	db checkplayerfirst_command
 ENDM
 
+	const checktptended_command ; $ad
+checktptended: MACRO
+	db checktptended_command
+ENDM
+
