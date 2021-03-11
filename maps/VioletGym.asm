@@ -23,6 +23,8 @@ VioletGymDummyScript:
 	special TPTPlayerBattle
 	reloadmapafterbattle
 	special TPTUpdateBrackets
+	checknextround
+	iffalse .EndOfRound
 	end
 
 .NotPlayerMatch:
@@ -31,6 +33,15 @@ VioletGymDummyScript:
 	closetext
 	special TPTSimulateMatch
 	special TPTUpdateBrackets
+	checknextround
+	iffalse .EndOfRound
+	end
+
+.EndOfRound:
+	opentext
+	writetext DummyEndRoundText
+	waitbutton
+	closetext
 	end
 
 VioletGymFalknerScript:
@@ -161,6 +172,11 @@ DummyLossText:
 DummyNotPlayerText:
     text "Not your match."
     line "Please try again."
+    done
+
+DummyEndRoundText:
+    text "This tournament"
+    line "round has ended!"
     done
 
 DummyTPTInit:
