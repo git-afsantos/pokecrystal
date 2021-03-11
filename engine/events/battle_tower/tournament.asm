@@ -60,6 +60,8 @@ TPTLoadNextMatch:
     rlca
     inc a   ; ids start at 1
     ld [wOtherTrainerID], a
+    ld a, TPT_BATTLE_SCRIPT_FLAGS
+    ld [wBattleScriptFlags], a
     farcall ReadTrainerParty
 
     ld a, [wTPTPlayerData]
@@ -81,6 +83,8 @@ TPTLoadNextMatch:
     rlca
     inc a   ; ids start at 1
     ld [wOtherTrainerID], a
+    ld a, TPT_BATTLE_SCRIPT_FLAGS
+    ld [wBattleScriptFlags], a
     farcall ReadTrainerParty
 
     ld a, [wTPTPlayerData]
@@ -90,8 +94,15 @@ TPTLoadNextMatch:
     pop bc
     ret
 
+; this is supposed to be called after a match
+TPTUpdateBrackets:
+    ld a, [wTPTPlayerData]
+    and TPT_PLAYER_BATTLE_FLAG
+    jr z, .skip
+    ; else, player participated
+    
 
-Script_movealongbracket:
+.skip
     ld a, [wTPTNextMatch]
     ld l, a
     ld a, [wTPTNextMatch + 1]
