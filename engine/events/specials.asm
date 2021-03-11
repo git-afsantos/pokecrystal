@@ -17,24 +17,6 @@ INCLUDE "data/events/special_pointers.asm"
 
 INCLUDE "engine/events/battle_tower/tournament.asm"
 
-LoadTPTOpponent:
-	ld a, (1 << 7) | 1
-	ld [wBattleScriptFlags], a
-	ld a, $8
-	call RandomRange
-	inc a ; for some reason, indices should start at 1, `dec` used later
-	ld c, a ; store random number in [0, 7]
-	;ld a, [wTPTFlags]
-	xor a ; FIXME this is just for testing
-	and $8 ; is the player a Johto Gym Leader?
-	add a, c ; [0, 7] if Kanto, [8, 15] if Johto
-	ld [wOtherTrainerClass], a
-	ld a, $4 ; select one of four possible teams
-	call RandomRange
-	inc a ; for some reason, indices should start at 1, `dec` used later
-	ld [wOtherTrainerID], a
-	farcall ReadTrainerParty
-
 SetPlayerPalette:
 	ld a, [wScriptVar]
 	ld d, a
