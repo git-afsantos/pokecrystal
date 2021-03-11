@@ -1179,9 +1179,19 @@ Script_reloadmapafterbattle:
 	and $ff ^ BATTLERESULT_BITMASK
 	cp LOSE
 	jr nz, .notblackedout
-	;ld b, BANK(Script_BattleWhiteout)
-	;ld hl, Script_BattleWhiteout
-	;jp ScriptJump
+	bit 1, d
+	jr z, .blackedout
+	ld a, [wTPTPlayerData]
+	xor TPT_PLAYER_LOST_FLAG
+	ld [wTPTPlayerData], a
+	and TPT_PLAYER_LOST_FLAG
+	jr nz, .done
+; if zero, already lost twice; fallthrough to whiteout
+
+.blackedout
+	ld b, BANK(Script_BattleWhiteout)
+	ld hl, Script_BattleWhiteout
+	jp ScriptJump
 
 .notblackedout
 	bit 0, d

@@ -935,7 +935,7 @@ wTPTTrainer2:: db
 
 wTPTPlayerData:: db
 ; bits 0-4 - trainer class constant [1..24]
-; bit 5    -
+; bit 5    - player lost one match
 ; bit 6    - player is trainer 1
 ; bit 7    - player participates in battle
 
