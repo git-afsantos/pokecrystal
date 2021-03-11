@@ -1063,7 +1063,19 @@ checksave: MACRO
 	db checksave_command
 ENDM
 
-	const movealongbracket_command ; $aa
-movealongbracket: MACRO
-	db movealongbracket_command
+
+	const checknextround_command ; $aa
+checknextround: MACRO
+	db checknextround_command
 ENDM
+
+	const checkplayermatch_command ; $ab
+checkplayermatch: MACRO
+	db checkplayermatch_command
+ENDM
+
+	const checkplayerfirst_command ; $ac
+checkplayerfirst: MACRO
+	db checkplayerfirst_command
+ENDM
+

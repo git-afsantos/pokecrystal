@@ -933,20 +933,17 @@ wTPTEliminated::
 wTPTMatchLoser::
 wTPTTrainer2:: db
 
-wTPTPlayerClass:: db
+wTPTPlayerData:: db
+; bits 0-4 - trainer class constant [1..24]
+; bit 5    -
+; bit 6    - player is trainer 1
+; bit 7    - player participates in battle
 
 wTPTNextMatch:: dw ; pointer to data table entry
 ; see: data/events/tournament_data.asm
 
-wTPTFlags:: db
-; bit 0 -
-; bit 1 -
-; bit 2 -
-; bit 3 -
-; bit 4 -
-; bit 5 -
-; bit 6 - player is trainer 1
-; bit 7 - player participates in battle
+; helper variable to store current match, etc.
+wTPTVar:: db
 
 
 SECTION "Overworld Map", WRAM0

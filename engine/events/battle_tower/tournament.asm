@@ -1,37 +1,12 @@
 ; Double elimination tournament logic
-
-; 8 JOHTO_GYM_LEADER classes [0-7]
-; 8 KANTO_GYM_LEADER classes [8-15]
-; 8 ELITE_TRAINER classes [16-23]
-
-; 1 byte with flags
-;   7 - 
-;   6 - 
-;   5 - 
-;   4 - 1 if player is ELITE_TRAINER
-;   3 - 1 if player is JOHTO_GYM_LEADER
-;   2 - 
-;   1 - 
-;   0 - 
-
-
-; special for script
-;InitializeTournament:
-;    call InitializeWinners1
-;    ld a, [wTPTPlayerClass]
-    ;cp OFFSET_ELITE_CLASSES
-    ;jr c, .is_gym_leader
-;    call PlayWinners1
-;    ret
-
+;   8 JOHTO_GYM_LEADER classes [1-8]
+;   8 KANTO_GYM_LEADER classes [9-16]
+;   8 ELITE_TRAINER classes [17-24]
 
 INCLUDE "data/events/tournament_data.asm"
 
-
 ; special for a script
 TPTLoadNextMatch:
-    ld a, 0
-    ld [wTPTFlags], a
     push bc
     ld c, 2         ; 2 bytes per match
     ld b, 0
@@ -43,7 +18,8 @@ TPTLoadNextMatch:
     ld hl, wTPTBrackets
     call AddNTimes  ; hl now points to the next match
 
-    ld a, [wTPTPlayerClass]
+    ld a, [wTPTPlayerData]
+    and TRAINER_CLASS_BIT_MASK
     ld c, a
 
     ld a, [hli]
@@ -61,8 +37,10 @@ TPTLoadNextMatch:
     cp c
     jr z, .player_is_second
 
-    ld a, 0
-    ld [wScriptVar], a  ; none of the participants is the player
+    ; none of the participants is the player
+    ld a, [wTPTPlayerData]
+    and TRAINER_CLASS_BIT_MASK      ; reset flags
+    ld [wTPTPlayerData], a
     pop bc
     ret
 
@@ -84,12 +62,11 @@ TPTLoadNextMatch:
     ld [wOtherTrainerID], a
     farcall ReadTrainerParty
 
-    ld a, 1
-    ld [wScriptVar], a  ; player participates
-    ld a, [wTPTFlags]
-    xor $80 ; player participates
-    xor $40 ; player is first
-    ld [wTPTFlags], a
+    ld a, [wTPTPlayerData]
+    and TRAINER_CLASS_BIT_MASK      ; reset flags
+    xor TPT_PLAYER_BATTLE_FLAG      ; player participates
+    xor TPT_PLAYER_TRAINER1_FLAG    ; player is first
+    ld [wTPTPlayerData], a
     pop bc
     ret
 
@@ -106,13 +83,47 @@ TPTLoadNextMatch:
     ld [wOtherTrainerID], a
     farcall ReadTrainerParty
 
-    ld a, 1
-    ld [wScriptVar], a  ; player participates
-    ld a, [wTPTFlags]
-    xor $80 ; player participates
-    ld [wTPTFlags], a
+    ld a, [wTPTPlayerData]
+    and TRAINER_CLASS_BIT_MASK      ; reset flags
+    xor TPT_PLAYER_BATTLE_FLAG      ; player participates
+    ld [wTPTPlayerData], a
     pop bc
     ret
+
+
+Script_movealongbracket:
+    ld a, [wTPTNextMatch]
+    ld l, a
+    ld a, [wTPTNextMatch + 1]
+    ld h, a
+    ; hl is now pointing to the correct data entry
+    inc hl      ; skip offset to current match
+
+    ld a, [hli] ; get offset to store winner
+    ld de, wTPTBrackets
+.loop1
+    and a
+    jr z, .store_winner
+    inc de
+    dec a
+    jr .loop1
+.store_winner
+    ld a, [wTPTMatchWinner]
+    ld [de], a
+
+    ld a, [hl] ; get offset to store loser
+    ld de, wTPTBrackets
+.loop2
+    and a
+    jr z, .store_loser
+    inc de
+    dec a
+    jr .loop2
+.store_loser
+    ld a, [wTPTMatchLoser]
+    ld [de], a
+
+	ret
 
 
 TPTSimulateMatch:

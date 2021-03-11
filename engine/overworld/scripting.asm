@@ -233,7 +233,9 @@ ScriptCommandTable:
 	dw Script_getname                    ; a7
 	dw Script_wait                       ; a8
 	dw Script_checksave                  ; a9
-	dw Script_movealongbracket           ; aa
+	dw Script_checknextround             ; aa
+	dw Script_checkplayermatch           ; ab
+	dw Script_checkplayerfirst           ; ac
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2354,47 +2356,26 @@ Script_checksave:
 	ld [wScriptVar], a
 	ret
 
-Script_checkver_duplicate: ; unreferenced
-	ld a, [.gs_version]
-	ld [wScriptVar], a
-	ret
 
-.gs_version
-	db GS_VERSION
-
-
-Script_setbattleresult:
-
-Script_movealongbracket:
+Script_checknextround:
     ld a, [wTPTNextMatch]
     ld l, a
     ld a, [wTPTNextMatch + 1]
     ld h, a
-    ; hl is now pointing to the correct data entry
-    inc hl      ; skip offset to current match
+    ld a, [hl]  ; offset to skip from
+    sub -1
+    ld [wScriptVar], a
+    ret
 
-    ld a, [hli] ; get offset to store winner
-    ld de, wTPTBrackets
-.loop1
-    and a
-    jr z, .store_winner
-    inc de
-    dec a
-    jr .loop1
-.store_winner
-    ld a, [wTPTMatchWinner]
-    ld [de], a
+Script_checkplayermatch:
+    ld a, [wTPTPlayerData]
+    and TPT_PLAYER_BATTLE_FLAG  ; player participates
+    ld [wScriptVar], a
+    ret
 
-    ld a, [hl] ; get offset to store loser
-    ld de, wTPTBrackets
-.loop2
-    and a
-    jr z, .store_loser
-    inc de
-    dec a
-    jr .loop2
-.store_loser
-    ld a, [wTPTMatchLoser]
-    ld [de], a
+Script_checkplayerfirst:
+    ld a, [wTPTPlayerData]
+    and TPT_PLAYER_TRAINER1_FLAG  ; player is first
+    ld [wScriptVar], a
+    ret
 
-	ret

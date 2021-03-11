@@ -188,3 +188,4 @@ SpecialsPointers::
 	add_special TPTInitializeWinners2
 	add_special TPTLoadNextMatch
 	add_special TPTSimulateMatch
+

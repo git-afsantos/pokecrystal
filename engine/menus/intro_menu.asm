@@ -314,7 +314,7 @@ InitializeWorld:
 	farcall _InitializeStartDay
 	ld a, FALKNER
     ld [wScriptVar], a
-    ld [wTPTPlayerClass], a
+    ld [wTPTPlayerData], a
     farcall ReadPlayerParty
 	ret
 

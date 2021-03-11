@@ -12,17 +12,15 @@ VioletGym_MapScripts:
 
 VioletGymDummyScript:
 	faceplayer
-	;setval 0
 	opentext
 	special TPTLoadNextMatch
+	checkplayermatch
 	iffalse .NotPlayerMatch
 	writetext DummyIntroText
 	waitbutton
 	closetext
 	winlosstext DummyWinText, DummyLossText
-	;special LoadTPTOpponent
 	startbattle
-	movealongbracket
 	reloadmapafterbattle
 	end
 
