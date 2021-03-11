@@ -944,6 +944,12 @@ wTPTNextMatch:: dw ; pointer to data table entry
 
 ; helper variable to store current match, etc.
 wTPTVar:: db
+; bits 2..0 - next match in current round [0..7]
+; bit  3    - end of the current round
+; bit  4    -
+; bit  5    -
+; bit  6    -
+; bit  7    - end of the tournament
 
 
 SECTION "Overworld Map", WRAM0

@@ -1184,9 +1184,9 @@ Script_reloadmapafterbattle:
 	jr z, .blackedout
 ; after TPT battle loss
 	ld a, [wTPTVar]
-	cp TPT_TOURNAMENT_ENDED
-	jr nz, .done
-; if zero, already lost twice; fallthrough to whiteout
+	and TPT_TOURNAMENT_END_FLAG
+	jr z, .done
+; if not zero, already lost twice; fallthrough to whiteout
 
 .blackedout
 	ld b, BANK(Script_BattleWhiteout)
@@ -2368,12 +2368,14 @@ Script_checksave:
 
 
 Script_checknextround:
-    ld a, [wTPTNextMatch]
-    ld l, a
-    ld a, [wTPTNextMatch + 1]
-    ld h, a
-    ld a, [hl]  ; offset to skip from
-    sub TPT_ROUND_ENDED
+    ;ld a, [wTPTNextMatch]
+    ;ld l, a
+    ;ld a, [wTPTNextMatch + 1]
+    ;ld h, a
+    ;ld a, [hl]  ; offset to skip from
+    ;sub -1
+    ld a, [wTPTVar]
+    and TPT_ROUND_END_FLAG
     ld [wScriptVar], a
     ret
 
@@ -2391,13 +2393,7 @@ Script_checkplayerfirst:
 
 Script_checktptended:
     ld a, [wTPTVar]
-    cp TPT_TOURNAMENT_ENDED
-    jr z, .ended
-    xor a
-    ld [wScriptVar], a
-    ret
-.ended
-    ld a, 1
+    and TPT_TOURNAMENT_END_FLAG
     ld [wScriptVar], a
     ret
 

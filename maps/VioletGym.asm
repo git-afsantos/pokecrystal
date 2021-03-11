@@ -22,6 +22,7 @@ VioletGymDummyScript:
 	winlosstext DummyWinText, DummyLossText
 	special TPTPlayerBattle
 	reloadmapafterbattle
+	special TPTUpdateBrackets
 	end
 
 .NotPlayerMatch:
@@ -29,6 +30,7 @@ VioletGymDummyScript:
 	waitbutton
 	closetext
 	special TPTSimulateMatch
+	special TPTUpdateBrackets
 	end
 
 VioletGymFalknerScript:

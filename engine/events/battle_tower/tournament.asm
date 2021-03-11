@@ -111,7 +111,8 @@ TPTPlayerBattle:
     and TPT_PLAYER_LOST_FLAG
     jr nz, .lost_first_time
 ; if zero, already lost twice; signal end of tournament
-    ld a, TPT_TOURNAMENT_ENDED
+    ld a, [wTPTVar]
+    or TPT_TOURNAMENT_END_FLAG
     ld [wTPTVar], a
     ret
 
@@ -144,13 +145,6 @@ TPTPlayerBattle:
 
 ; this is supposed to be called after a match
 TPTUpdateBrackets:
-    ld a, [wTPTPlayerData]
-    and TPT_PLAYER_BATTLE_FLAG
-    jr z, .skip
-    ; else, player participated
-    
-
-.skip
     ld a, [wTPTNextMatch]
     ld l, a
     ld a, [wTPTNextMatch + 1]
@@ -170,7 +164,7 @@ TPTUpdateBrackets:
     ld a, [wTPTMatchWinner]
     ld [de], a
 
-    ld a, [hl] ; get offset to store loser
+    ld a, [hli] ; get offset to store loser
     ld de, wTPTBrackets
 .loop2
     and a
@@ -182,6 +176,20 @@ TPTUpdateBrackets:
     ld a, [wTPTMatchLoser]
     ld [de], a
 
+    ld a, [hl]  ; look ahead to next match
+    cp -1
+    jr nz, .has_next
+    ld a, [wTPTVar]
+    or TPT_ROUND_END_FLAG
+    ld [wTPTVar], a
+    ret
+.has_next
+    ld e, l
+    ld d, h
+    ld hl, wTPTNextMatch
+    ld [hl], e
+    inc hl
+    ld [hl], d
 	ret
 
 
@@ -216,6 +224,8 @@ TPTInitializeWinners1:
     ld [hl], e
     inc hl
     ld [hl], d
+    xor a
+    ld [wTPTVar], a
     ret
 
 
