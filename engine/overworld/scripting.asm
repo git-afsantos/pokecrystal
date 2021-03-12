@@ -236,7 +236,8 @@ ScriptCommandTable:
 	dw Script_checkroundended            ; aa
 	dw Script_checkplayermatch           ; ab
 	dw Script_checkplayerfirst           ; ac
-	dw Script_checktptended              ; ad
+	dw Script_checktptstarted            ; ad
+	dw Script_checktptended              ; ae
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2391,9 +2392,14 @@ Script_checkplayerfirst:
     ld [wScriptVar], a
     ret
 
+Script_checktptstarted:
+    ld a, [wTPTVar]
+    and TPT_TOURNAMENT_START_FLAG
+    ld [wScriptVar], a
+    ret
+
 Script_checktptended:
     ld a, [wTPTVar]
     and TPT_TOURNAMENT_END_FLAG
     ld [wScriptVar], a
     ret
-

@@ -312,8 +312,9 @@ InitializeWorld:
 	call ShrinkPlayer
 	farcall SpawnPlayer
 	farcall _InitializeStartDay
+    xor a
+    ld [wTPTVar], a
 	ld a, FALKNER
-    ld [wScriptVar], a
     ld [wTPTPlayerData], a
     farcall ReadPlayerParty
 	ret

@@ -124,6 +124,15 @@ TrainerBirdKeeperAbe:
 VioletGymGuideScript:
     faceplayer
     opentext
+    checktptstarted
+    iffalse .InitializeTPT
+    special TPTInitializeWinners2
+    writetext DummyTPTCont
+    waitbutton
+    closetext
+    end
+
+.InitializeTPT:
     special TPTInitializeWinners1
     writetext DummyTPTInit
     waitbutton
@@ -172,6 +181,8 @@ DummyLossText:
 DummyNotPlayerText:
     text "Not your match."
     line "Please try again."
+    cont "@"
+    text_ram wStringBuffer2
     done
 
 DummyEndRoundText:
@@ -182,6 +193,11 @@ DummyEndRoundText:
 DummyTPTInit:
     text "The Tournament can"
     line "now begin!"
+    done
+
+DummyTPTCont:
+    text "The Tournament can"
+    line "now continue!"
     done
 
 FalknerIntroText:

@@ -10,7 +10,8 @@ ReadPlayerParty:
 	xor a
 	call ByteFill ; fills bc bytes (all party structs) with a (0)
 
-	ld a, [wScriptVar] ; Trainer Class constant
+	ld a, [wTPTPlayerData]      ; Trainer Class constant
+	and TRAINER_CLASS_BIT_MASK  ; dismiss flags
 
 	dec a ; zero-based index
 	ld c, a

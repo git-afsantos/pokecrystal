@@ -7,8 +7,8 @@ INCLUDE "data/events/tournament_data.asm"
 
 ; special for a script
 TPTLoadNextMatch:
-    xor a
-    ld [wTPTVar], a
+    ;ld a, TPT_TOURNAMENT_START_FLAG
+    ;ld [wTPTVar], a
     ;push bc
     ld c, 2         ; 2 bytes per match
     ld b, 0
@@ -28,22 +28,105 @@ TPTLoadNextMatch:
     ld [wTPTTrainer1], a    ; this byte is [1][2][5]
                             ; 1 bit leftover/flag
                             ; 2 bits trainer id [0,3]
-                            ; 5 bits trainer class [0, 23]
+                            ; 5 bits trainer class [1, 24]
     and TRAINER_CLASS_BIT_MASK
     cp c
-    jr z, .player_is_first
+    jp z, .player_is_first
 
     ld a, [hl]
     ld [wTPTTrainer2], a
     and TRAINER_CLASS_BIT_MASK
     cp c
-    jr z, .player_is_second
+    jp z, .player_is_second
 
     ; none of the participants is the player
     ld a, [wTPTPlayerData]
-    and TRAINER_CLASS_BIT_MASK      ; reset flags
+    and TRAINER_CLASS_BIT_MASK | TPT_PLAYER_LOST_FLAG  ; reset flags
     ld [wTPTPlayerData], a
     ;pop bc
+
+    ld hl, wStringBuffer2
+    ld a, [wTPTTrainer1]
+    and TRAINER_CLASS_BIT_MASK
+    cp FALKNER
+    jr nz, .bugsy
+    ld a, "1"
+    ld [hl], a
+    ld a, "@"
+    inc hl
+    ld [hl], a
+    ret
+.bugsy
+    cp BUGSY
+    jr nz, .whitney
+    ld a, "2"
+    ld [hl], a
+    ld a, "@"
+    inc hl
+    ld [hl], a
+    ret
+.whitney
+    cp WHITNEY
+    jr nz, .morty
+    ld a, "3"
+    ld [hl], a
+    ld a, "@"
+    inc hl
+    ld [hl], a
+    ret
+.morty
+    cp MORTY
+    jr nz, .chuck
+    ld a, "4"
+    ld [hl], a
+    ld a, "@"
+    inc hl
+    ld [hl], a
+    ret
+.chuck
+    cp CHUCK
+    jr nz, .jasmine
+    ld a, "5"
+    ld [hl], a
+    ld a, "@"
+    inc hl
+    ld [hl], a
+    ret
+.jasmine
+    cp JASMINE
+    jr nz, .pryce
+    ld a, "6"
+    ld [hl], a
+    ld a, "@"
+    inc hl
+    ld [hl], a
+    ret
+.pryce
+    cp PRYCE
+    jr nz, .clair
+    ld a, "7"
+    ld [hl], a
+    ld a, "@"
+    inc hl
+    ld [hl], a
+    ret
+.clair
+    cp CLAIR
+    jr nz, .smth
+    ld a, "8"
+    ld [hl], a
+    ld a, "@"
+    inc hl
+    ld [hl], a
+    ret
+.smth
+    ld a, "X"
+    ld [hl], a
+    ld a, "@"
+    inc hl
+    ld [hl], a
+    ret
+
     ret
 
 .player_is_first
@@ -67,7 +150,8 @@ TPTLoadNextMatch:
     farcall ReadTrainerParty
 
     ld a, [wTPTPlayerData]
-    and TRAINER_CLASS_BIT_MASK      ; reset flags
+; reset flags
+    and TRAINER_CLASS_BIT_MASK | TPT_PLAYER_LOST_FLAG
     xor TPT_PLAYER_BATTLE_FLAG      ; player participates
     xor TPT_PLAYER_TRAINER1_FLAG    ; player is first
     ld [wTPTPlayerData], a
@@ -78,7 +162,7 @@ TPTLoadNextMatch:
     ld a, [wTPTTrainer1]    ; fetch the opponent
     and TRAINER_CLASS_BIT_MASK  ; load the opponent's team
     ld [wOtherTrainerClass], a
-    ld a, [hl]
+    ld a, [wTPTTrainer1]
     and TRAINER_TEAM_BIT_MASK
     rlca    ; rotate left 3 times is 12 cycles
     rlca
@@ -90,8 +174,9 @@ TPTLoadNextMatch:
     farcall ReadTrainerParty
 
     ld a, [wTPTPlayerData]
-    and TRAINER_CLASS_BIT_MASK      ; reset flags
-    xor TPT_PLAYER_BATTLE_FLAG      ; player participates
+; reset flags
+    and TRAINER_CLASS_BIT_MASK | TPT_PLAYER_LOST_FLAG
+    xor TPT_PLAYER_BATTLE_FLAG ; player participates
     ld [wTPTPlayerData], a
     ;pop bc
     ret
@@ -226,7 +311,7 @@ TPTInitializeWinners1:
     ld [hl], e
     inc hl
     ld [hl], d
-    xor a
+    ld a, TPT_TOURNAMENT_START_FLAG
     ld [wTPTVar], a
     ret
 
