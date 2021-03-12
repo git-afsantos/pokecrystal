@@ -233,7 +233,7 @@ ScriptCommandTable:
 	dw Script_getname                    ; a7
 	dw Script_wait                       ; a8
 	dw Script_checksave                  ; a9
-	dw Script_checknextround             ; aa
+	dw Script_checkroundended            ; aa
 	dw Script_checkplayermatch           ; ab
 	dw Script_checkplayerfirst           ; ac
 	dw Script_checktptended              ; ad
