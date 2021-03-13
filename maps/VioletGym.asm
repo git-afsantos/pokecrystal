@@ -13,6 +13,8 @@ VioletGym_MapScripts:
 VioletGymDummyScript:
 	faceplayer
 	opentext
+	checkroundended
+	iftrue EndOfRound
 	special TPTLoadNextMatch
 	ifequal 0, DebugZero
 	ifgreater 8, DebugGreater
@@ -30,8 +32,6 @@ DebugContinue:
 	special TPTPlayerBattle
 	reloadmapafterbattle
 	special TPTUpdateBrackets
-	checkroundended
-	iftrue .EndOfRound
 	end
 
 .NotPlayerMatch:
@@ -40,12 +40,9 @@ DebugContinue:
 	closetext
 	special TPTSimulateMatch
 	special TPTUpdateBrackets
-	checkroundended
-	iftrue .EndOfRound
 	end
 
-.EndOfRound:
-	opentext
+EndOfRound:
 	writetext DummyEndRoundText
 	waitbutton
 	closetext
@@ -203,7 +200,9 @@ DebugGreater:
 
 DebugOkay:
     text "Trainer class"
-    line "looks alright."
+    line "@"
+    text_decimal wDebugTPT, 1, 2
+    text " looks ok!"
     done
 
 DummyNotPlayerText:

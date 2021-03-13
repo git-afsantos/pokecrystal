@@ -9,16 +9,15 @@ INCLUDE "data/events/tournament_data.asm"
 TPTLoadNextMatch:
     ;ld a, TPT_TOURNAMENT_START_FLAG
     ;ld [wTPTVar], a
-    ;push bc
-    ld c, 2         ; 2 bytes per match
-    ld b, 0
     ld a, [wTPTNextMatch]
     ld l, a
     ld a, [wTPTNextMatch + 1]
     ld h, a
-    ld a, [hl]      ; offset to skip from...
+    ld a, [hl]      ; offset to skip from wTPTBrackets
+    ld b, 0
+    ld c, a
     ld hl, wTPTBrackets
-    call AddNTimes  ; hl now points to the next match
+    add hl, bc      ; hl now points to the next match
 
     ld a, [wTPTPlayerData]
     and TRAINER_CLASS_BIT_MASK
@@ -41,13 +40,13 @@ TPTLoadNextMatch:
 
     ; none of the participants is the player
     ld a, [wTPTPlayerData]
-    and TRAINER_CLASS_BIT_MASK | TPT_PLAYER_LOST_FLAG  ; reset flags
+    and TPT_PLAYER_WL_CLASS_BIT_MASK  ; reset flags
     ld [wTPTPlayerData], a
-    ;pop bc
 
     ld a, [wTPTTrainer1]
     and TRAINER_CLASS_BIT_MASK
     ld [wScriptVar], a
+    ld [wDebugTPT], a
 
     ret
 
@@ -72,16 +71,15 @@ TPTLoadNextMatch:
     farcall ReadTrainerParty
 
     ld a, [wTPTPlayerData]
-; reset flags
-    and TRAINER_CLASS_BIT_MASK | TPT_PLAYER_LOST_FLAG
-    xor TPT_PLAYER_BATTLE_FLAG      ; player participates
-    xor TPT_PLAYER_TRAINER1_FLAG    ; player is first
+    and TPT_PLAYER_WL_CLASS_BIT_MASK    ; reset flags
+    or TPT_PLAYER_BATTLE_FLAG           ; player participates
+    or TPT_PLAYER_TRAINER1_FLAG         ; player is first
     ld [wTPTPlayerData], a
-    ;pop bc
 
     ld a, [wTPTTrainer1]
     and TRAINER_CLASS_BIT_MASK
     ld [wScriptVar], a
+    ld [wDebugTPT], a
 
     ret
 
@@ -101,15 +99,14 @@ TPTLoadNextMatch:
     farcall ReadTrainerParty
 
     ld a, [wTPTPlayerData]
-; reset flags
-    and TRAINER_CLASS_BIT_MASK | TPT_PLAYER_LOST_FLAG
-    xor TPT_PLAYER_BATTLE_FLAG ; player participates
+    and TPT_PLAYER_WL_CLASS_BIT_MASK    ; reset flags
+    or TPT_PLAYER_BATTLE_FLAG           ; player participates
     ld [wTPTPlayerData], a
-    ;pop bc
 
     ld a, [wTPTTrainer1]
     and TRAINER_CLASS_BIT_MASK
     ld [wScriptVar], a
+    ld [wDebugTPT], a
 
     ret
 
@@ -165,37 +162,30 @@ TPTPlayerBattle:
 ; this is supposed to be called after a match
 TPTUpdateBrackets:
     ld a, [wTPTNextMatch]
-    ld l, a
+    ld e, a
     ld a, [wTPTNextMatch + 1]
-    ld h, a
-    ; hl is now pointing to the correct data entry
-    inc hl      ; skip offset to current match
+    ld d, a
+    ; de is now pointing to the correct data entry
+    inc de      ; skip offset to current match
 
-    ld a, [hli] ; get offset to store winner
-    ld de, wTPTBrackets
-.loop1
-    and a
-    jr z, .store_winner
-    inc de
-    dec a
-    jr .loop1
-.store_winner
+    ld a, [de]  ; get offset to store winner
+    ld b, 0
+    ld c, a
+    ld hl, wTPTBrackets
+    add hl, bc
     ld a, [wTPTMatchWinner]
-    ld [de], a
+    ld [hl], a
 
-    ld a, [hli] ; get offset to store loser
-    ld de, wTPTBrackets
-.loop2
-    and a
-    jr z, .store_loser
     inc de
-    dec a
-    jr .loop2
-.store_loser
+    ld a, [de]  ; get offset to store loser
+    ld c, a
+    ld hl, wTPTBrackets
+    add hl, bc
     ld a, [wTPTMatchLoser]
-    ld [de], a
+    ld [hl], a
 
-    ld a, [hl]  ; look ahead to next match
+    inc de
+    ld a, [de]  ; look ahead to next match
     cp -1
     jr nz, .has_next
     ld a, [wTPTVar]
@@ -203,8 +193,6 @@ TPTUpdateBrackets:
     ld [wTPTVar], a
     ret
 .has_next
-    ld e, l
-    ld d, h
     ld hl, wTPTNextMatch
     ld [hl], e
     inc hl
@@ -214,7 +202,7 @@ TPTUpdateBrackets:
 
 TPTSimulateMatch:
     call Random
-    and $1
+    bit 0, a
     jr z, .trainer2_won
     ; leave trainers as they are
     ret
@@ -234,10 +222,18 @@ TPTInitializeWinners1:
     ld de, wTPTWinnersBracket
     ld c, OFFSET_JOHTO_CLASSES
     call InitializeRegionTrainers
-    ld de, wTPTWinnersBracket
-    inc de
+
+    ld de, wTPTWinnersBracket + 1
     ld c, OFFSET_KANTO_CLASSES
     call InitializeRegionTrainers
+
+    ld b, 0
+    ld c, 16
+    ;xor a
+    ld a, FALKNER
+    ld hl, wTPTLosersBracket
+    call ByteFill   ; fill loser's bracket with zeroes
+
     ld de, TPTWinnersRound1Matches
     ld hl, wTPTNextMatch
     ld [hl], e
@@ -254,11 +250,14 @@ TPTInitializeWinners2:
     inc de
     ld c, OFFSET_ELITE_CLASSES
     call InitializeRegionTrainers
+
     ld de, TPTWinnersRound2Matches
     ld hl, wTPTNextMatch
     ld [hl], e
     inc hl
     ld [hl], d
+    ld a, TPT_TOURNAMENT_START_FLAG
+    ld [wTPTVar], a
     ret
 
 
@@ -270,7 +269,7 @@ InitializeRegionTrainers:
     push bc
     ld a, NUM_GYM_LEADERS
     call RandomRange
-    ld b, $0
+    ld b, 0
     ld c, a
     ; go to random shuffle
     ld hl, TrainerShuffles
@@ -283,7 +282,7 @@ InitializeRegionTrainers:
     and CLASS_OFFSET_BIT_MASK
     add a, c
     inc a       ; classes start at 1
-    ;xor $00    ; use first team
+    ;or $00     ; use first team
     ld [de], a
 
     ; Trainer 2
@@ -293,7 +292,7 @@ InitializeRegionTrainers:
     and CLASS_OFFSET_BIT_MASK
     add a, c
     inc a       ; classes start at 1
-    xor TRAINER_SET_TEAM2 ; use second team
+    or TRAINER_SET_TEAM2 ; use second team
     ld [de], a
 
     ; Trainer 3
@@ -304,7 +303,7 @@ InitializeRegionTrainers:
     and CLASS_OFFSET_BIT_MASK
     add a, c
     inc a       ; classes start at 1
-    xor TRAINER_SET_TEAM3 ; use third team
+    or TRAINER_SET_TEAM3 ; use third team
     ld [de], a
 
     ; Trainer 4
@@ -314,7 +313,7 @@ InitializeRegionTrainers:
     and CLASS_OFFSET_BIT_MASK
     add a, c
     inc a       ; classes start at 1
-    xor TRAINER_SET_TEAM4 ; use fourth team
+    or TRAINER_SET_TEAM4 ; use fourth team
     ld [de], a
 
     ; Trainer 5
@@ -325,7 +324,7 @@ InitializeRegionTrainers:
     and CLASS_OFFSET_BIT_MASK
     add a, c
     inc a       ; classes start at 1
-    ;xor $00    ; use first team
+    ;or $00     ; use first team
     ld [de], a
 
     ; Trainer 6
@@ -335,7 +334,7 @@ InitializeRegionTrainers:
     and CLASS_OFFSET_BIT_MASK
     add a, c
     inc a       ; classes start at 1
-    xor TRAINER_SET_TEAM2 ; use second team
+    or TRAINER_SET_TEAM2 ; use second team
     ld [de], a
 
     ; Trainer 7
@@ -346,7 +345,7 @@ InitializeRegionTrainers:
     and CLASS_OFFSET_BIT_MASK
     add a, c
     inc a       ; classes start at 1
-    xor TRAINER_SET_TEAM3 ; use third team
+    or TRAINER_SET_TEAM3 ; use third team
     ld [de], a
 
     ; Trainer 8
@@ -356,7 +355,7 @@ InitializeRegionTrainers:
     and CLASS_OFFSET_BIT_MASK
     add a, c
     inc a       ; classes start at 1
-    xor TRAINER_SET_TEAM4 ; use fourth team
+    or TRAINER_SET_TEAM4 ; use fourth team
     ld [de], a
 
     ret
