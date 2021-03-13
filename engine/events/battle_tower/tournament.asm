@@ -31,13 +31,13 @@ TPTLoadNextMatch:
                             ; 5 bits trainer class [1, 24]
     and TRAINER_CLASS_BIT_MASK
     cp c
-    jp z, .player_is_first
+    jr z, .player_is_first
 
     ld a, [hl]
     ld [wTPTTrainer2], a
     and TRAINER_CLASS_BIT_MASK
     cp c
-    jp z, .player_is_second
+    jr z, .player_is_second
 
     ; none of the participants is the player
     ld a, [wTPTPlayerData]
@@ -45,87 +45,9 @@ TPTLoadNextMatch:
     ld [wTPTPlayerData], a
     ;pop bc
 
-    ld hl, wStringBuffer2
     ld a, [wTPTTrainer1]
     and TRAINER_CLASS_BIT_MASK
-    cp FALKNER
-    jr nz, .bugsy
-    ld a, "1"
-    ld [hl], a
-    ld a, "@"
-    inc hl
-    ld [hl], a
-    ret
-.bugsy
-    cp BUGSY
-    jr nz, .whitney
-    ld a, "2"
-    ld [hl], a
-    ld a, "@"
-    inc hl
-    ld [hl], a
-    ret
-.whitney
-    cp WHITNEY
-    jr nz, .morty
-    ld a, "3"
-    ld [hl], a
-    ld a, "@"
-    inc hl
-    ld [hl], a
-    ret
-.morty
-    cp MORTY
-    jr nz, .chuck
-    ld a, "4"
-    ld [hl], a
-    ld a, "@"
-    inc hl
-    ld [hl], a
-    ret
-.chuck
-    cp CHUCK
-    jr nz, .jasmine
-    ld a, "5"
-    ld [hl], a
-    ld a, "@"
-    inc hl
-    ld [hl], a
-    ret
-.jasmine
-    cp JASMINE
-    jr nz, .pryce
-    ld a, "6"
-    ld [hl], a
-    ld a, "@"
-    inc hl
-    ld [hl], a
-    ret
-.pryce
-    cp PRYCE
-    jr nz, .clair
-    ld a, "7"
-    ld [hl], a
-    ld a, "@"
-    inc hl
-    ld [hl], a
-    ret
-.clair
-    cp CLAIR
-    jr nz, .smth
-    ld a, "8"
-    ld [hl], a
-    ld a, "@"
-    inc hl
-    ld [hl], a
-    ret
-.smth
-    ld a, "X"
-    ld [hl], a
-    ld a, "@"
-    inc hl
-    ld [hl], a
-    ret
+    ld [wScriptVar], a
 
     ret
 
@@ -156,6 +78,11 @@ TPTLoadNextMatch:
     xor TPT_PLAYER_TRAINER1_FLAG    ; player is first
     ld [wTPTPlayerData], a
     ;pop bc
+
+    ld a, [wTPTTrainer1]
+    and TRAINER_CLASS_BIT_MASK
+    ld [wScriptVar], a
+
     ret
 
 .player_is_second
@@ -179,6 +106,11 @@ TPTLoadNextMatch:
     xor TPT_PLAYER_BATTLE_FLAG ; player participates
     ld [wTPTPlayerData], a
     ;pop bc
+
+    ld a, [wTPTTrainer1]
+    and TRAINER_CLASS_BIT_MASK
+    ld [wScriptVar], a
+
     ret
 
 ; TPT battle in which the player participates

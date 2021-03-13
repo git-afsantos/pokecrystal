@@ -14,6 +14,13 @@ VioletGymDummyScript:
 	faceplayer
 	opentext
 	special TPTLoadNextMatch
+	ifequal 0, DebugZero
+	ifgreater 8, DebugGreater
+	writetext DebugOkay
+DebugContinue:
+	waitbutton
+	closetext
+	opentext
 	checkplayermatch
 	iffalse .NotPlayerMatch
 	writetext DummyIntroText
@@ -178,11 +185,30 @@ DummyLossText:
 	line "luck next time."
 	done
 
+DebugZero:
+    writetext .thetext
+    sjump DebugContinue
+.thetext
+    text "Trainer class"
+    line "is 0."
+    done
+
+DebugGreater:
+    writetext .thetext
+    sjump DebugContinue
+.thetext
+    text "Trainer class"
+    line "beyond limit."
+    done
+
+DebugOkay:
+    text "Trainer class"
+    line "looks alright."
+    done
+
 DummyNotPlayerText:
-    text "Not your match."
-    line "Please try again."
-    cont "@"
-    text_ram wStringBuffer2
+    text "Not your turn"
+    line "now. Maybe next."
     done
 
 DummyEndRoundText:

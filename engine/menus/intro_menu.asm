@@ -72,7 +72,7 @@ NewGame:
 	ld [wPrevLandmark], a
 
 	;ld a, SPAWN_HOME
-	ld a, SPAWN_VIOLET
+	ld a, SPAWN_DEBUG
 	ld [wDefaultSpawnpoint], a
 
 	ld a, MAPSETUP_WARP
