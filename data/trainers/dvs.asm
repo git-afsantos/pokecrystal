@@ -9,20 +9,20 @@ TrainerClassDVs:
 	dn 15, 15, 15, 15 ; JASMINE
 	dn 15, 15, 15, 15 ; PRYCE
 	dn 15, 15, 15, 15 ; CLAIR
-	dn  9,  8,  8,  8 ; BROCK
-	dn  7,  8,  8,  8 ; MISTY
-	dn  9,  8,  8,  8 ; LT_SURGE
-	dn  7,  8,  8,  8 ; ERIKA
-	dn  9,  8,  8,  8 ; JANINE
-	dn  7, 13,  8,  7 ; SABRINA
-	dn  9,  8,  8,  8 ; BLAINE
-	dn  9, 13, 13, 13 ; BLUE
-	dn 13, 12, 13, 13 ; WILL
-	dn 13, 12, 13, 13 ; KOGA
-	dn 13, 12, 13, 13 ; BRUNO
-	dn  7, 15, 13, 15 ; KAREN
-	dn 13, 12, 13, 13 ; CHAMPION
-	dn 13, 13, 13, 13 ; RIVAL1
+	dn 15, 15, 15, 15 ; BROCK
+	dn 15, 15, 15, 15 ; MISTY
+	dn 15, 15, 15, 15 ; LT_SURGE
+	dn 15, 15, 15, 15 ; ERIKA
+	dn 15, 15, 15, 15 ; JANINE
+	dn 15, 15, 15, 15 ; SABRINA
+	dn 15, 15, 15, 15 ; BLAINE
+	dn 15, 15, 15, 15 ; BLUE
+	dn 15, 15, 15, 15 ; WILL
+	dn 15, 15, 15, 15 ; KOGA
+	dn 15, 15, 15, 15 ; BRUNO
+	dn 15, 15, 15, 15 ; KAREN
+	dn 15, 15, 15, 15 ; CHAMPION
+	dn 13, 13, 15, 13 ; RIVAL1
 	dn  9,  8,  8,  8 ; POKEMON_PROF
 	dn 13, 12, 13, 13 ; CAL
 	dn  9,  8,  8,  8 ; SCIENTIST
