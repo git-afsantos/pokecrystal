@@ -953,8 +953,6 @@ wTPTVar:: db
 ; bit 6 - end of the current round
 ; bit 7 - end of the tournament
 
-wDebugTPT:: db
-
 
 SECTION "Overworld Map", WRAM0
 

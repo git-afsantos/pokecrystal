@@ -16,10 +16,7 @@ VioletGymDummyScript:
 	checkroundended
 	iftrue EndOfRound
 	special TPTLoadNextMatch
-	ifequal 0, DebugZero
-	ifgreater 8, DebugGreater
-	writetext DebugOkay
-DebugContinue:
+	writetext DebugTPTText
 	waitbutton
 	closetext
 	opentext
@@ -131,14 +128,16 @@ VioletGymGuideScript:
     checktptstarted
     iffalse .InitializeTPT
     special TPTInitializeWinners2
-    writetext DummyTPTCont
+    ;writetext DummyTPTCont
+    writetext DebugTPTBrackets
     waitbutton
     closetext
     end
 
 .InitializeTPT:
     special TPTInitializeWinners1
-    writetext DummyTPTInit
+    ;writetext DummyTPTInit
+    writetext DebugTPTBrackets
     waitbutton
     closetext
     end
@@ -182,27 +181,71 @@ DummyLossText:
 	line "luck next time."
 	done
 
-DebugZero:
-    writetext .thetext
-    sjump DebugContinue
-.thetext
-    text "Trainer class"
-    line "is 0."
+DebugTPTText:
+    text "Next Match:"
+    line "  @"
+    text_decimal wTPTTrainer1, 1, 3
+    text " vs @"
+    text_decimal wTPTTrainer2, 1, 3
+    text "!"
     done
 
-DebugGreater:
-    writetext .thetext
-    sjump DebugContinue
-.thetext
-    text "Trainer class"
-    line "beyond limit."
-    done
+DebugTPTBrackets:
+    text "Match 1:"
+    line "  @"
+    text_decimal wTPTBrackets, 1, 3
+    text " vs @"
+    text_decimal wTPTBrackets+1, 1, 3
+    text "!"
 
-DebugOkay:
-    text "Trainer class"
-    line "@"
-    text_decimal wDebugTPT, 1, 2
-    text " looks ok!"
+    para "Match 2:"
+    line "  @"
+    text_decimal wTPTBrackets+2, 1, 3
+    text " vs @"
+    text_decimal wTPTBrackets+3, 1, 3
+    text "!"
+
+    para "Match 3:"
+    line "  @"
+    text_decimal wTPTBrackets+4, 1, 3
+    text " vs @"
+    text_decimal wTPTBrackets+5, 1, 3
+    text "!"
+
+    para "Match 4:"
+    line "  @"
+    text_decimal wTPTBrackets+6, 1, 3
+    text " vs @"
+    text_decimal wTPTBrackets+7, 1, 3
+    text "!"
+
+    para "Match 5:"
+    line "  @"
+    text_decimal wTPTBrackets+8, 1, 3
+    text " vs @"
+    text_decimal wTPTBrackets+9, 1, 3
+    text "!"
+
+    para "Match 6:"
+    line "  @"
+    text_decimal wTPTBrackets+10, 1, 3
+    text " vs @"
+    text_decimal wTPTBrackets+11, 1, 3
+    text "!"
+
+    para "Match 7:"
+    line "  @"
+    text_decimal wTPTBrackets+12, 1, 3
+    text " vs @"
+    text_decimal wTPTBrackets+13, 1, 3
+    text "!"
+
+    para "Match 8:"
+    line "  @"
+    text_decimal wTPTBrackets+14, 1, 3
+    text " vs @"
+    text_decimal wTPTBrackets+15, 1, 3
+    text "!"
     done
 
 DummyNotPlayerText:
