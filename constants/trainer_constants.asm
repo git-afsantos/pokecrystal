@@ -138,12 +138,19 @@ KRIS EQU __trainer_class__
 	trainerclass CHAMPION ; 15
 	const LANCE
 
+	trainerclass RED ; 3f
+	const RED1
+
+	trainerclass POKEMON_PROF ; a
+	const OAK1
+
+	trainerclass MYSTICALMAN ; 43
+	const EUSINE
+
 	trainerclass RIVAL1 ; 11
 	const RIVAL1_1_CHIKORITA
 	const RIVAL1_1_CYNDAQUIL
 	const RIVAL1_1_TOTODILE
-
-	trainerclass POKEMON_PROF ; a
 
 	trainerclass CAL ; c
 	const CAL1
@@ -718,9 +725,6 @@ KRIS EQU __trainer_class__
 	const GEORGIA
 	const JAIME
 
-	trainerclass RED ; 3f
-	const RED1
-
 	trainerclass OFFICER ; 41
 	const KEITH
 	const DIRK
@@ -731,9 +735,6 @@ KRIS EQU __trainer_class__
 	const GRUNTF_3
 	const GRUNTF_4
 	const GRUNTF_5
-
-	trainerclass MYSTICALMAN ; 43
-	const EUSINE
 
 NUM_TRAINER_CLASSES EQU __trainer_class__
 NUM_GYM_LEADERS EQU 8

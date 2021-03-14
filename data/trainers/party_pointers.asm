@@ -23,8 +23,10 @@ TrainerGroups:
 	dw BrunoGroup
 	dw KarenGroup
 	dw ChampionGroup
-	dw Rival1Group
+	dw RedGroup
 	dw PokemonProfGroup
+	dw MysticalmanGroup
+	dw Rival1Group
 	dw PKMNTrainerGroup
 	dw ScientistGroup
 	dw YoungsterGroup
@@ -65,7 +67,5 @@ TrainerGroups:
 	dw KimonoGirlGroup
 	dw TwinsGroup
 	dw PokefanFGroup
-	dw RedGroup
 	dw OfficerGroup
 	dw GruntFGroup
-	dw MysticalmanGroup

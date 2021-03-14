@@ -22,8 +22,10 @@ TrainerClassDVs:
 	dn 15, 15, 15, 15 ; BRUNO
 	dn 15, 15, 15, 15 ; KAREN
 	dn 15, 15, 15, 15 ; CHAMPION
+	dn 15, 15, 15, 15 ; RED
+	dn 15, 15, 15, 15 ; POKEMON_PROF
+	dn 15, 15, 15, 15 ; MYSTICALMAN
 	dn 13, 13, 15, 13 ; RIVAL1
-	dn  9,  8,  8,  8 ; POKEMON_PROF
 	dn 13, 12, 13, 13 ; CAL
 	dn  9,  8,  8,  8 ; SCIENTIST
 	dn  9,  8,  8,  8 ; YOUNGSTER
@@ -64,7 +66,5 @@ TrainerClassDVs:
 	dn  6,  8,  8, 10 ; KIMONO_GIRL
 	dn  6,  8, 10,  8 ; TWINS
 	dn  6, 13,  8,  8 ; POKEFANF
-	dn 15, 13, 13, 14 ; RED
 	dn  9,  8,  8,  8 ; OFFICER
 	dn  7, 14, 10,  8 ; GRUNTF
-	dn  9,  8,  8,  8 ; MYSTICALMAN

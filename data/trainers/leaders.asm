@@ -29,4 +29,5 @@ KantoGymLeaders:
 	db SABRINA
 	db BLAINE
 	db BLUE
+	db POKEMON_PROF
 	db -1

@@ -23,8 +23,10 @@ TrainerPicPointers::
 	dba_pic BrunoPic
 	dba_pic KarenPic
 	dba_pic ChampionPic
-	dba_pic Rival1Pic
+	dba_pic RedPic
 	dba_pic PokemonProfPic
+	dba_pic MysticalmanPic
+	dba_pic Rival1Pic
 	dba_pic CalPic
 	dba_pic ScientistPic
 	dba_pic YoungsterPic
@@ -65,7 +67,5 @@ TrainerPicPointers::
 	dba_pic KimonoGirlPic
 	dba_pic TwinsPic
 	dba_pic PokefanfPic
-	dba_pic RedPic
 	dba_pic OfficerPic
 	dba_pic GruntfPic
-	dba_pic MysticalmanPic

@@ -23,8 +23,10 @@ BTTrainerClassGenders:
 	db MALE   ; BRUNO
 	db FEMALE ; KAREN
 	db MALE   ; CHAMPION
-	db MALE   ; RIVAL1
+	db MALE   ; RED
 	db MALE   ; POKEMON_PROF
+	db MALE   ; MYSTICALMAN
+	db MALE   ; RIVAL1
 	db MALE   ; CAL
 	db MALE   ; SCIENTIST
 	db MALE   ; YOUNGSTER
@@ -65,6 +67,5 @@ BTTrainerClassGenders:
 	db FEMALE ; KIMONO_GIRL
 	db FEMALE ; TWINS
 	db FEMALE ; POKEFANF
-	db MALE   ; RED
 	db MALE   ; OFFICER
 	db FEMALE ; GRUNTF
