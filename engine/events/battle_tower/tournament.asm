@@ -43,11 +43,6 @@ TPTLoadNextMatch:
     and TPT_PLAYER_WL_CLASS_BIT_MASK  ; reset flags
     ld [wTPTPlayerData], a
 
-    ld a, [wTPTTrainer1]
-    and TRAINER_CLASS_BIT_MASK
-    ld [wScriptVar], a
-    ld [wDebugTPT], a
-
     ret
 
 .player_is_first
@@ -76,11 +71,6 @@ TPTLoadNextMatch:
     or TPT_PLAYER_TRAINER1_FLAG         ; player is first
     ld [wTPTPlayerData], a
 
-    ld a, [wTPTTrainer1]
-    and TRAINER_CLASS_BIT_MASK
-    ld [wScriptVar], a
-    ld [wDebugTPT], a
-
     ret
 
 .player_is_second
@@ -102,11 +92,6 @@ TPTLoadNextMatch:
     and TPT_PLAYER_WL_CLASS_BIT_MASK    ; reset flags
     or TPT_PLAYER_BATTLE_FLAG           ; player participates
     ld [wTPTPlayerData], a
-
-    ld a, [wTPTTrainer1]
-    and TRAINER_CLASS_BIT_MASK
-    ld [wScriptVar], a
-    ld [wDebugTPT], a
 
     ret
 
@@ -269,11 +254,12 @@ InitializeRegionTrainers:
     push bc
     ld a, NUM_GYM_LEADERS
     call RandomRange
+    add a, a    ; times 2
+    add a, a    ; times 4 (4 bytes per shuffle)
     ld b, 0
     ld c, a
-    ; go to random shuffle
     ld hl, TrainerShuffles
-    add hl, bc
+    add hl, bc  ; go to random shuffle
     pop bc
 
     ; Trainer 1
